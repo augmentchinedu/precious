@@ -1,0 +1,32 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --import dotenv/config index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augmentchinedu/ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/augmentchinedu/ai/issues"
+  },
+  "homepage": "https://github.com/augmentchinedu/ai#readme",
+  "dependencies": {
+    "@google/genai": "^1.41.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "js-yaml": "^4.1.1",
+    "mongoose": "^8.23.0",
+    "morgan": "^1.10.1",
+    "pino": "^10.3.1",
+    "simple-git": "^3.31.1"
+  }
+}

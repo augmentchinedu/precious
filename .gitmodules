@@ -1,0 +1,6 @@
+[submodule "modules/node"]
+	path = modules/node
+	url = https://github.com/augmentchinedu/node
+[submodule "modules/schemas"]
+	path = modules/schemas
+	url = https://github.com/augmentchinedu/schemas
