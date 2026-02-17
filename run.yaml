@@ -1,2 +1,12 @@
-information: >
-  We are the official Web Development Community of The Great Unknown
+platform_architect: >
+  We would not be making a Wallet schema
+  We would not be creating a discord server
+  Our Social Media Posts would be manually done in real time
+
+  Development should verify if they have access to our code modules
+  Documents should be unified. Refactored.
+
+  node & models repo has been added to Google Cloud Build triggers.
+  node would start Express for each service on App Engine.
+
+  The Queen of Queens & King of Kings live together.

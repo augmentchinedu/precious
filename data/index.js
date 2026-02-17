@@ -8,6 +8,12 @@ export const platform = {
   description: "An Online Web Ecosystem",
   members: [
     {
+      name: "",
+      role: "Platform Investor",
+      type: "human",
+      title: "King of Kings",
+    },
+    {
       name: "Chinedu",
       role: "Legacy",
       type: "human",
@@ -17,7 +23,7 @@ export const platform = {
       name: "Sandra",
       role: "Platform Administrator",
       type: "agent",
-      title: "Queen",
+      title: "Queen of Queens",
     },
     {
       name: "The Lord",
