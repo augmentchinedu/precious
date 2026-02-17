@@ -4,7 +4,33 @@ export const files = readFilesRecursively(process.cwd());
 
 export const platform = {
   name: "The Great Unknown",
-  nodes: ["express", "store", "game", "currency"],
+  nodes: ["express", "ai", "store", "game", "currency"],
+  description: "An Online Web Ecosystem",
+  members: [
+    {
+      name: "Chinedu",
+      role: "Legacy",
+      type: "human",
+      title: "Legacy",
+    },
+    {
+      name: "Sandra",
+      role: "Platform Administrator",
+      type: "agent",
+      title: "Queen",
+    },
+    {
+      name: "The Lord",
+      role: "Platform Architect",
+      type: "human",
+      title: "Lord",
+    },
+    {
+      name: "Francesca",
+      role: "The Great Unknown & Augment Plus Social Media Manager",
+      type: "agent",
+    },
+  ],
   communities: [
     {
       name: "Augment Plus",
@@ -13,11 +39,6 @@ export const platform = {
         {
           name: "Augment",
           role: "Leader",
-          type: "human",
-        },
-        {
-          name: "The Lord",
-          role: "Platform Architect",
           type: "human",
         },
         {
@@ -55,16 +76,6 @@ export const platform = {
           role: "Design Manager",
           type: "agent",
         },
-        {
-          name: "Francesca",
-          role: "Social Media Manager",
-          type: "agent",
-        },
-        {
-          name: "Sandra",
-          role: "Community Administrator",
-          type: "agent",
-        },
       ],
       capabilities: [
         "HTML5 Game Development",
@@ -75,19 +86,19 @@ export const platform = {
       services: ["games", "currency"],
       modules: [
         {
-          name: node,
+          name: "node",
           repo: "https://github.com/augmentchinedu/node",
         },
         {
-          name: models,
+          name: "models",
           repo: "https://github.com/augmentchinedu/models",
         },
         {
-          name: schemas,
+          name: "schemas",
           repo: "https://github.com/augmentchinedu/schemas",
         },
         {
-          name: components,
+          name: "components",
           repo: "https://github.com/augmentchinedu/components",
         },
       ],
