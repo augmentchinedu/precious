@@ -1,0 +1,51 @@
+# Render Service Configuration for The Great Unknown
+
+services:
+  - type: web
+    name: great-unknown-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: DATABASE_URL
+        fromDatabase: your-database
+      - key: OPENAI_API_KEY
+        fromSecret: OPENAI_API_KEY
+      - key: TWITTER_API_KEY
+        fromSecret: TWITTER_API_KEY
+      - key: TWITTER_API_SECRET
+        fromSecret: TWITTER_API_SECRET
+      - key: TWITTER_ACCESS_TOKEN
+        fromSecret: TWITTER_ACCESS_TOKEN
+      - key: TWITTER_ACCESS_SECRET
+        fromSecret: TWITTER_ACCESS_SECRET
+      - key: INSTAGRAM_APP_ID
+        fromSecret: INSTAGRAM_APP_ID
+      - key: INSTAGRAM_APP_SECRET
+        fromSecret: INSTAGRAM_APP_SECRET
+      - key: FACEBOOK_APP_ID
+        fromSecret: FACEBOOK_APP_ID
+      - key: FACEBOOK_APP_SECRET
+        fromSecret: FACEBOOK_APP_SECRET
+      - key: DISCORD_BOT_TOKEN
+        fromSecret: DISCORD_BOT_TOKEN
+    healthCheckPath: /health
+    autoDeploy: true
+    autoStopIdleInstances: false
+    instanceCount: 1
+    instanceSize: performance-std
+    idleTimeout: 60
+    restartPolicy: always
+    logs: true
+    alerts:
+      - type: health_check
+        threshold: 3
+        incident: true
+      - type: error_threshold
+        threshold: 5
+        incident: true
