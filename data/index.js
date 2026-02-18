@@ -1,6 +1,6 @@
 import { readFilesRecursively } from "../utility/index.js";
 
-export const files = readFilesRecursively(process.cwd());
+export const files = await readFilesRecursively(process.cwd());
 
 export const platform = {
   name: "The Great Unknown",

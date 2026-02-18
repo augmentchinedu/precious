@@ -1,7 +1,5 @@
 // core/client.js
-import OpenAI from "openai";
+import { init } from "@heyputer/puter.js/src/init.cjs";
 
-export const ai = new OpenAI({
-  apiKey: process.env.FIREWORKS_API_KEY,
-  baseURL: "https://api.fireworks.ai/inference/v1",
-});
+// Initialize with your Puter auth token (stored in env)
+export const ai = init(process.env.PUTER_AUTH_TOKEN);

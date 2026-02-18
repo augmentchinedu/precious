@@ -1,8 +1,2 @@
 update: >
-  We would automate posts in future
-  There is no human currently available to craft posts
-
-  node: Your build failed to run: We could not find a valid build file. Please ensure that your repo contains a cloudbuild or a Dockerfile. See https://cloud.google.com/cloud-build/docs/quickstart-build
-  models: Your build failed to run: We could not find a valid build file. Please ensure that your repo contains a cloudbuild or a Dockerfile. See https://cloud.google.com/cloud-build/docs/quickstart-build
-
-  We need to add cloudbuild.yaml to App Engine Modules
+  We would now have to use Render for hosting.
