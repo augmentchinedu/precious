@@ -1,12 +1,8 @@
-platform_architect: >
-  We would not be making a Wallet schema
-  We would not be creating a discord server
-  Our Social Media Posts would be manually done in real time
+update: >
+  We would automate posts in future
+  There is no human currently available to craft posts
 
-  Development should verify if they have access to our code modules
-  Documents should be unified. Refactored.
+  node: Your build failed to run: We could not find a valid build file. Please ensure that your repo contains a cloudbuild or a Dockerfile. See https://cloud.google.com/cloud-build/docs/quickstart-build
+  models: Your build failed to run: We could not find a valid build file. Please ensure that your repo contains a cloudbuild or a Dockerfile. See https://cloud.google.com/cloud-build/docs/quickstart-build
 
-  node & models repo has been added to Google Cloud Build triggers.
-  node would start Express for each service on App Engine.
-
-  The Queen of Queens & King of Kings live together.
+  We need to add cloudbuild.yaml to App Engine Modules

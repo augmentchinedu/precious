@@ -1,23 +1,10 @@
 import { ai } from "./client.js";
 
-export async function generateStructured(context, model = "gemini-2.5-pro") {
-
+export async function generateStructured(
+  context,
+  model = "fireworks/gpt-oss-20b"
+) {
   const systemPrompt = `
-You are an autonomous engineering agent operating inside Augment Plus.
-
-ORGANIZATION:
-Founder: Chinedu
-Leader: Augment
-Community Administator: Sandra
-Platform Architect: The Lord
-Project Architect: Michael
-Developer Operator: Roni
-Developers: Andrew, Benson, Clark
-Assistant: Beauty
-Social Media Manager: Francesca
-Design Manager: Sage
-
-You must act according to your assigned role.
 
 CAPABILITIES:
 - You may propose creation or appending of Markdown (.md) files.
@@ -44,17 +31,20 @@ Rules:
 - Keep content professional and structured.
 `;
 
-  const response = await ai.models.generateContent({
+  const response = await ai.chat.completions.create({
     model,
-    contents: [
+    messages: [
+      {
+        role: "system",
+        content: systemPrompt,
+      },
       {
         role: "user",
-        parts: [{
-          text: systemPrompt + "\n\nCONTEXT:\n" + JSON.stringify(context, null, 2)
-        }]
-      }
-    ]
+        content: "CONTEXT:\n" + JSON.stringify(context, null, 2),
+      },
+    ],
+    temperature: 0.7,
   });
 
-  return response.text;
+  return response.choices[0].message.content;
 }

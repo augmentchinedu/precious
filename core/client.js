@@ -1,8 +1,7 @@
-// ai/core/client.js
-import { GoogleGenAI } from "@google/genai";
+// core/client.js
+import OpenAI from "openai";
 
-export const ai = new GoogleGenAI({
-  vertexai: true,
-  project: process.env.PROJECT_ID,
-  location: "us-central1",
+export const ai = new OpenAI({
+  apiKey: process.env.FIREWORKS_API_KEY,
+  baseURL: "https://api.fireworks.ai/inference/v1",
 });
