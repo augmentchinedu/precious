@@ -114,3 +114,84 @@ Should a deployment fail or an issue arise post-deployment, follow these initial
 5.  **Local Reproduction:** Attempt to reproduce the issue locally using the exact commit that failed in deployment.
 6.  **Rollback:** If rapid resolution is not immediately apparent and the issue is critical, initiate a rollback to the last stable version as outlined in Section 6.
 7.  **Escalate:** If the issue persists after these steps, consult the `docs/operations/README.md` for escalation procedures or contact the Developer Operator team.
+
+
+## 5.2 Preparing Your Node for Automated Deployment
+
+To ensure your individual node (e.g., `express`, `ai`, `store`) is correctly integrated into the automated deployment pipeline triggered by the `augmentchinedu/node` module, specific structural and configuration guidelines must be followed.
+
+### 5.2.1 Node Project Structure
+
+Individual node code is expected to reside within designated subdirectories inside the `augmentchinedu/node` repository, typically under `modules/node/`. For example:
+
+```
+augmentchinedu/node/
+├── modules/
+│   ├── node/
+│   │   ├── express/
+│   │   │   ├── package.json
+│   │   │   └── src/
+│   │   ├── ai/
+│   │   │   ├── package.json
+│   │   │   └── src/
+│   │   ├── store/
+│   │   │   ├── package.json
+│   │   │   └── src/
+│   │   └── ... (other nodes)
+│   └── cloudbuild.yaml
+└── package.json
+```
+
+Each node subdirectory (`express/`, `ai/`, etc.) should be a self-contained application, with its own `package.json` defining dependencies and build/start scripts relevant to that specific node.
+
+### 5.2.2 Node-Specific `package.json` Configuration
+
+Within your node's subdirectory, the `package.json` is critical for defining its identity and operational commands:
+
+*   **`name`**: Should be unique and reflect the node's purpose (e.g., `"name": "express-node"`).
+*   **`version`**: Follow semantic versioning.
+*   **`main`**: Entry point for your node application.
+*   **`scripts`**:
+    *   **`start`**: Essential for the deployment system to know how to run your application (e.g., `"start": "node src/index.js"`).
+    *   **`build`**: If your node requires a build step before deployment (e.g., `"build": "tsc"`).
+    *   **`test`**: For running node-specific tests (e.g., `"test": "jest"`).
+
+Example `package.json` for an `ai` node:
+```json
+{
+  "name": "ai-node",
+  "version": "1.0.0",
+  "description": "AI processing node for The Great Unknown",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "build": "echo 'No build step required for this node'",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.20.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
+```
+
+### 5.2.3 Deployment Manifest (`cloudbuild.yaml`)
+
+The central `cloudbuild.yaml` file (located at `modules/node/cloudbuild.yaml`) in the `augmentchinedu/node` repository is responsible for orchestrating the build and deployment process for all nodes. Developers must understand its structure:
+
+*   It likely contains conditional logic (e.g., based on changed files, commit messages, or specific branch pushes) to identify *which* node subdirectory requires a deployment.
+*   It will execute `npm install`, `npm run build` (if defined), and `npm run start` within the context of the identified node's subdirectory.
+*   **Developer Action:** When making changes to your node, ensure that the `cloudbuild.yaml`'s logic correctly identifies your node for deployment. If new nodes are added or the deployment logic needs adjustment, collaborate with the Platform Administrator or Developer Operator to update `cloudbuild.yaml`.
+
+### 5.2.4 Environment Variables and Configuration
+
+Each node will likely require specific environment variables for its operation (e.g., database connection strings, API keys).
+
+*   **Management:** Environment variables should be managed through the App Engine's configuration interface or `render.yaml` if applicable. **Never hardcode sensitive information.**
+*   **Node-specific variables:** Ensure your node's code is designed to read configuration from environment variables (e.g., `process.env.MY_API_KEY`).
+*   **Collaboration:** Coordinate with Platform Administration for the secure configuration and update of environment variables specific to your node.
+
+By adhering to these structural and configuration guidelines, developers can effectively leverage the automated deployment system, ensuring their nodes are seamlessly built, tested, and deployed to The Great Unknown platform.
