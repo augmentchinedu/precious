@@ -14,8 +14,6 @@ import { extractFileAction } from "./utility/index.js";
 import { ExecutionControllerV2 } from "./core/executionControllerV2.js";
 import { getLatestCommit } from "./utility/git.js";
 
-import { keepPuterAlive } from "./core/client.js";
-
 const app = express();
 app.use(cors());
 app.use(morgan("tiny"));
@@ -63,11 +61,6 @@ async function initPlatform() {
 
   agents = loadAgents();
   console.log(`Loaded ${agents.length} agents into memory.`);
-
-  // Start Puter keep-alive
-  keepPuterAlive().catch((err) =>
-    console.error("Puter keepAlive crashed:", err)
-  );
 }
 
 /* =====================================================
@@ -195,12 +188,10 @@ Date: ${commit.date || "N/A"}
 ===================================================== */
 app.post("/api/run", async (req, res) => {
   if (activeSession) {
-    return res
-      .status(409)
-      .json({
-        error: "A session is already running",
-        sessionId: activeSession,
-      });
+    return res.status(409).json({
+      error: "A session is already running",
+      sessionId: activeSession,
+    });
   }
 
   try {

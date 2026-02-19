@@ -1,12 +1,12 @@
 // core/generateStructured.js
 import { ai } from "../core/client.js";
 
-export async function generateStructured(
-  context,
-  model = "google/gemini-2.5-flash"
-) {
+export async function generateStructured(context, model = "gemini-2.5-flash") {
   const systemPrompt = `
-You are an autonomous execution agent operating inside a governed AI platform.
+You are an autonomous agent operating inside platform. 
+Give your reviews.
+Create md documents where needed to guide our organisation.
+
 
 You do NOT chat casually.
 You act with precision.
@@ -46,23 +46,22 @@ STRICT RULES:
 - Do NOT include explanation inside FILE_ACTION blocks.
 `;
 
-  try {
-    console.log("=== Sending prompt to AI ===");
-    console.log(JSON.stringify({ context }, null, 2));
-    console.log("=== End prompt ===");
+  const response = await ai.models.generateContent({
+    model,
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text:
+              systemPrompt +
+              "\n\nCONTEXT:\n" +
+              JSON.stringify(context, null, 2),
+          },
+        ],
+      },
+    ],
+  });
 
-    const response = await ai.run({
-      prompt: "CONTEXT:\n" + JSON.stringify(context, null, 2),
-      systemPrompt,
-      model,
-      temperature: 0.3,
-    });
-
-    return (
-      response.text || response.output?.[0]?.content || JSON.stringify(response)
-    );
-  } catch (err) {
-    console.error("Puter AI call failed:", err);
-    return `ERROR: AI call failed - ${err.message}`;
-  }
+  return response.text;
 }
