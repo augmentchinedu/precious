@@ -1,0 +1,1 @@
+\nservices:\n  - type: web\n    name: the-great-unknown\n    env: node\n    plan: free\n    buildCommand: npm install\n    startCommand: npm start\n    envVars:\n      - key: NODE_ENV\n        value: production\n    autoDeploy: true\n
