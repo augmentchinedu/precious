@@ -58,3 +58,25 @@ The upcoming CI/CD pipeline will automate the following steps upon the creation 
 2.  **Testing**: Run all unit and integration tests.
 3.  **Building**: Ensure the application and all modules build successfully.
 4.  **(Future) Deployment**: Automatically deploy the `develop` branch to a staging environment and the `main` branch to production.
+
+
+## Hosting Standard: Render (Effective 2026-02-19)
+
+All production hosting for **The Great Unknown** is now standardized on **Render**. Any prior hosting assumptions should be considered deprecated for current and new services.
+
+### Source of truth
+- Render blueprint/config: `docs/.render.yaml`
+- Ops reference: `docs/operations/README.md` (section: “Hosting: Render (Migration Standard)”)
+- Social announcement draft: `docs/social-media/updates/2026-02-19-render-migration.md`
+
+### Deployment expectations (Node/Express)
+- **Service type:** Web service (Node)
+- **Build command:** `npm install`
+- **Start command:** `npm start`
+- **Environment variables:** set `NODE_ENV=production` (plus any required secrets via Render dashboard)
+- **Auto-deploy:** enabled for the main branch (per Render configuration)
+- **Health verification:** validate the health endpoint if available (see `docs/src/routes/health.js`)
+
+### Rules
+- Do **not** commit secrets to the repository; configure them in Render.
+- If additional services are introduced, extend the Render blueprint and update the ops documentation accordingly.
