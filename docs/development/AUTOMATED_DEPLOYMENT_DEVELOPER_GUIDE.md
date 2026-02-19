@@ -69,3 +69,48 @@ In case of a failed deployment or post-deployment issues:
 *   **`docs/development/TESTING_STRATEGY.md`**: To ensure robust testing procedures.
 
 Stay tuned for workshops and further communications on best practices for developing within this new automated deployment environment.
+
+
+## 5.1 Deployment Visibility and Troubleshooting Resources
+
+Efficient troubleshooting is key to leveraging automated deployments. Here's how to gain visibility into your deployments and quickly address issues:
+
+### 5.1.1 App Engine Deployment Dashboard
+*   **Access:** Navigate to the App Engine Dashboard (URL to be provided by Platform Administration).
+*   **Functionality:** This dashboard provides a high-level overview of all active deployments, their status (e.g., `in progress`, `successful`, `failed`), and deployment history.
+*   **Identifying Your Deployment:** Look for your specific node's service name (e.g., `express`, `ai`, `store`) and the corresponding commit hash or branch name that triggered the deployment.
+
+### 5.1.2 Accessing CI/CD Pipeline Logs
+*   **Access:** (Specific CI/CD tool interface URL to be provided, e.g., Render Logs, GitHub Actions logs if integrated).
+*   **Functionality:** These logs detail the steps executed during the automated deployment pipeline (e.g., `build`, `test`, `deploy`). This is crucial for identifying issues *before* the application fully starts.
+*   **Key Information to Look For:**
+    *   Build failures (compilation errors, dependency issues).
+    *   Test failures.
+    *   Configuration errors during deployment setup.
+
+### 5.1.3 Centralized Application Logs
+*   **Access:** (Specific centralized logging system URL/tool to be provided, e.g., Grafana Loki, ELK Stack, Render Logs).
+*   **Functionality:** Once your node has deployed and started, application-specific logs are invaluable for runtime issue diagnosis.
+*   **Effective Log Filtering:**
+    *   **Service Name:** Filter logs by the name of your specific node (e.g., `service:ai`, `service:express`).
+    *   **Deployment ID/Version:** If available, filter by the deployment ID or version to isolate logs from a specific deployment.
+    *   **Timestamp:** Focus on logs generated around the time of your deployment or when the issue occurred.
+    *   **Keywords:** Search for error codes, exception messages, or specific operational messages relevant to your change.
+
+### 5.1.4 Common Deployment Troubleshooting Steps
+
+Should a deployment fail or an issue arise post-deployment, follow these initial steps:
+
+1.  **Check App Engine Dashboard:** Verify the deployment status. If `failed`, proceed to pipeline logs.
+2.  **Review CI/CD Pipeline Logs:** Identify the exact step where the pipeline failed. Common issues include:
+    *   **`npm install` / `yarn install` errors:** Missing dependencies, incorrect package versions, registry issues.
+    *   **Build command errors:** Transpilation failures, syntax errors, incorrect build configurations.
+    *   **Test failures:** Unit or integration tests preventing deployment.
+3.  **Inspect Application Logs (for successful deployments with runtime issues):** If the deployment was successful but the application is not functioning as expected, dive into the centralized application logs. Look for:
+    *   Startup errors (e.g., port conflicts, database connection failures).
+    *   Unhandled exceptions or critical errors after application start.
+    *   Configuration loading issues.
+4.  **Verify Environment Variables:** Ensure all necessary environment variables are correctly configured for the target environment.
+5.  **Local Reproduction:** Attempt to reproduce the issue locally using the exact commit that failed in deployment.
+6.  **Rollback:** If rapid resolution is not immediately apparent and the issue is critical, initiate a rollback to the last stable version as outlined in Section 6.
+7.  **Escalate:** If the issue persists after these steps, consult the `docs/operations/README.md` for escalation procedures or contact the Developer Operator team.
