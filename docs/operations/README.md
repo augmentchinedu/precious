@@ -25,3 +25,33 @@ We will maintain three distinct environments:
 
 | Environment | Purpose                                     | Branch Strategy         | Deployment                               |
 |
+
+
+## Hosting: Render (Migration Standard)
+
+**Status:** Active (platform hosting standard)  
+**Owner:** Platform Administration (Sandra)  
+**Applies to:** The Great Unknown (Node/Express services)
+
+### Summary
+We are standardizing hosting on **Render** for production deployments. This replaces prior hosting assumptions and should be treated as the default target for new services and updates.
+
+### Source of truth
+- Render blueprint/config: `docs/.render.yaml`
+- Social announcement draft: `docs/social-media/updates/2026-02-19-render-migration.md`
+
+### Operational checklist (high-level)
+1. **Confirm service type**: Node web service (Express).
+2. **Build command**: `npm install`
+3. **Start command**: `npm start`
+4. **Environment**: set `NODE_ENV=production` (and any additional required secrets in Render dashboard).
+5. **Health verification**: validate the health endpoint if available (see `docs/src/routes/health.js`).
+6. **Auto-deploy**: enabled on Render for the main branch (per Render configuration).
+
+### Notes / conventions
+- Prefer using the repository’s Render YAML as the canonical deployment definition.
+- Any required secrets must be configured in Render (do not commit secrets to the repo).
+- If multiple services are introduced, extend the Render blueprint accordingly and document the change here.
+
+### Change log
+- 2026-02-19: Hosting standard updated to Render.
