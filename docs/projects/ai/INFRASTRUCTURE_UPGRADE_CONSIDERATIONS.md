@@ -97,3 +97,15 @@ Align public-facing messaging with the operational reality: **Render is now the 
 - [ ] Select canonical post file and delete/ignore malformed duplicates (documentation hygiene).
 - [ ] Publish announcement + schedule follow-up “Migration Complete” post within 24–48h of stability confirmation.
 - [ ] Add a short internal note: exact publish time, responsible approver, and rollback messaging if needed.
+
+
+## Render Hosting Migration — Developer Review (Clark)
+
+### Decision required (blocking)
+1. **Canonical Render config location**
+   - Repo contains `docs/.render.yaml`, but Render typically expects `render.yaml` at repo root (or dashboard-only config).
+   - Action: explicitly choose **one** canonical source of truth and document it. Everything else should be treated as reference-only.
+
+2. **Artifact hygiene (blocking for operator clarity)**
+   - FileIndex shows a malformed path that appears to be YAML content serialized into a filename:
+     - `docs/render.yaml/n
