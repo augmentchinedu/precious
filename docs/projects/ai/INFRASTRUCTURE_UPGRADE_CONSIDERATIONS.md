@@ -40,3 +40,14 @@ Migrating to Google Cloud App Engine is a significant infrastructure change affe
 - **Environment Configuration:** How will environment variables and secrets be managed securely (e.g., GCP Secret Manager)? A clear and secure process is required.
 - **Logging & Monitoring:** We need clear documentation on accessing application logs, setting up alerts, and monitoring performance using Google Cloud's operations suite.
 - **Deployment Process:** Deployments should be automated via the new Git-based CI/CD pipeline. We need to define roles and permissions for triggering deployments to various environments (staging, production).
+
+
+## Render Hosting Migration — Admin Review (Sandra)
+
+### Summary
+Platform hosting is transitioning to **Render**. This is aligned with the current operational update and should be treated as the default deployment target going forward.
+
+### What’s in place (repo evidence)
+- A Render configuration exists at `docs/.render.yaml`.
+- A second Render-related artifact appears in the index as a malformed/duplicated path:  
+  `docs/render.yaml/n
