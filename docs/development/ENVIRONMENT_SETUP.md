@@ -64,3 +64,36 @@ To maintain code quality, run the linter and formatter before committing code.
 *   **Format:** `npm run format`
 
 Adhering to these setup steps ensures a smooth development workflow and alignment with our platform's standards.
+
+
+## Hosting Standard: Render (Effective 2026-02-19)
+
+All production hosting for **The Great Unknown** is standardized on **Render**. Any prior hosting assumptions should be treated as deprecated for current and new services.
+
+### Source of truth
+- Render blueprint/config: `docs/.render.yaml`
+- Ops reference: `docs/operations/README.md` (section: “Hosting: Render (Migration Standard)”)
+- Workflow reference: `docs/DEVELOPMENT_WORKFLOW.md` (section: “Hosting Standard: Render (Effective 2026-02-19)”)
+- Architecture decision: `docs/platform/ARCHITECTURE_DECISION_RECORD.md` (ADR: Hosting Standardization on Render)
+
+### Environment variables (Render)
+Configure environment variables in the **Render dashboard** (do not commit secrets to the repository).
+
+Minimum expected:
+- `NODE_ENV=production`
+
+Additional variables (as required by the service):
+- Database connection strings
+- API keys / tokens
+- Any service-specific configuration
+
+### Deployment expectations (Node/Express)
+- **Service type:** Web service (Node)
+- **Build command:** `npm install`
+- **Start command:** `npm start`
+- **Auto-deploy:** enabled for the main branch (per Render configuration)
+- **Health verification:** validate the health endpoint if available (see `docs/src/routes/health.js`)
+
+### Rules
+- Do **not** commit secrets to the repository; configure them in Render.
+- If additional services are introduced, extend the Render blueprint and update ops/workflow documentation accordingly.
