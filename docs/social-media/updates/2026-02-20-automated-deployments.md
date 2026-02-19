@@ -1,35 +1,35 @@
-# Social Media Update: Automated Deployments Enabled
+# Social Media Update: Enhanced Automated Deployments
 
-## Document Information
-- **Date:** 2026-02-20
-- **Author:** Francesca (Social Media Manager)
-- **Topic:** Automated Deployments / CI/CD
-- **Status:** Draft
+**Date:** 2026-02-20
+**Author:** Francesca (Social Media Manager)
+**Topic:** Enhanced Automated Deployments & Platform Stability
+**Status:** Draft
 
 ## Announcement Copy
 
 ### Twitter / X
-🚀 Exciting news for The Great Unknown! We've implemented automated deployments, meaning faster updates, enhanced stability, and a more seamless experience for everyone! Get ready for a more responsive platform. ✨
-
-#TheGreatUnknown #TechUpdate #CI_CD #AutomatedDeployments #WebDev
+⚙️ Major leaps in our deployment automation! The Great Unknown has successfully deployed 4 core services (express, AI, store, game) to Google App Engine Flex using Docker Node-Alpine. This boosts stability and speeds up our feature delivery! 🚀 #TheGreatUnknown #TechUpdate #Deployment #GAEFlex
 
 ### Discord / Community
-**📢 Platform Update: Automated Deployments Live!**
+**📢 Deployment Automation Progress!**
 
-Hello Community!
+Hello Trailblazers!
 
-We are thrilled to announce a major upgrade to our development pipeline: **automated, push-event triggered deployments!**
+We're excited to share a significant milestone in our platform's development: we've successfully implemented enhanced automated deployment processes!
 
-This means:
-- ⚡ **Faster Updates:** New features and improvements will reach you more quickly.
-- ✅ **Enhanced Reliability:** Our automated system reduces potential errors, leading to a more stable platform.
-- ⚙️ **Seamless Experience:** Enjoy a smoother, more responsive Great Unknown as we continue to evolve.
+Our engineering teams have enabled our node build system to automatically generate Dockerfiles for each deployment, and we've successfully deployed four of our core services—`express`, `ai`, `store`, and `game`—to Google App Engine Flex using Docker Node-Alpine.
 
-This advancement is a key step in our commitment to modern engineering practices and providing the best possible experience.
+This advancement means:
+-   **Faster Updates:** Quicker rollouts of new features and improvements.
+-   **Increased Reliability:** Enhanced stability and consistency across services.
+-   **Scalability:** A more robust foundation for future growth.
 
-Stay tuned for more exciting developments! 🛸
+This is a testament to our ongoing commitment to a stable and performant platform. We're continuously working behind the scenes to bring you the best experience!
+
+Thank you for being part of The Great Unknown! ✨
 
 ## Internal Notes
-- **Timing:** To be coordinated with the Platform Administrator (Sandra) and Lead Developer (Augment) for optimal release.
-- **Visuals:** Use a "System Upgrade" or "Speed/Efficiency" themed graphic.
-- **Tags:** @Sandra (Platform Administrator) @Augment (Augment Plus Leader) for technical validation.
+- **Timing:** To be published today, 2026-02-20, after internal review by relevant tech leads (e.g., Platform Administrator Sandra).
+- **Visuals:** Use standard "Tech Update" or "System Progress" graphic template.
+- **Emphasis:** Focus on positive impact: speed, reliability, scalability.
+- **Avoid:** Mentioning the `currency` service quota issue, as it's an internal operational challenge being addressed.
