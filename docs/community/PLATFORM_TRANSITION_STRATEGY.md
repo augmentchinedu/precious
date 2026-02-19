@@ -39,3 +39,36 @@ To support the directive of "Respond with clarity," we must enhance our communic
 - **Coordination:** Collaborate with Francesca (Social Media Manager) to synthesize technical progress from developers and architects into regular, digestible updates for the entire community.
 - **Centralized Announcements:** Utilize a dedicated channel or document for broadcasting major platform changes, downtime, and policy updates.
 - **Feedback Loop:** Create a formal, documented process for community members to propose changes, report issues, and critique architecture respectfully. This will ensure that feedback is tracked and addressed systematically.
+
+
+## Hosting Migration: Render (Effective 2026-02-19)
+
+**Status:** Active  
+**Scope:** Production hosting for The Great Unknown (Node/Express services)  
+**Owner:** Platform Administration (Sandra)  
+**Trigger:** “We would now have to use Render for hosting.”
+
+### Decision
+All production deployments are standardized on **Render**. Any prior hosting assumptions are deprecated for current and new services.
+
+### Source of truth
+- Render blueprint/config: `docs/.render.yaml`
+- Ops reference: `docs/operations/README.md` (section: “Hosting: Render (Migration Standard)”)
+- Workflow reference: `docs/DEVELOPMENT_WORKFLOW.md` (section: “Hosting Standard: Render (Effective 2026-02-19)”)
+- Architecture decision: `docs/platform/ARCHITECTURE_DECISION_RECORD.md` (ADR: Hosting Standardization on Render)
+- Social announcement draft: `docs/social-media/updates/2026-02-19-render-migration.md`
+
+### Deployment expectations (Node/Express)
+- **Service type:** Web service (Node)
+- **Build command:** `npm install`
+- **Start command:** `npm start`
+- **Environment variables:** `NODE_ENV=production` (+ additional secrets configured in Render dashboard)
+- **Auto-deploy:** enabled for the main branch (per Render configuration)
+- **Health verification:** validate the health endpoint if available (see `docs/src/routes/health.js`)
+
+### Operational rules
+- Do **not** commit secrets to the repository; configure them in Render.
+- If additional services are introduced, extend the Render blueprint and update ops/workflow/community transition documentation accordingly.
+
+### Change log
+- 2026-02-19: Hosting standard updated to Render across platform transition strategy.
