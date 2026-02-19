@@ -51,3 +51,49 @@ Platform hosting is transitioning to **Render**. This is aligned with the curren
 - A Render configuration exists at `docs/.render.yaml`.
 - A second Render-related artifact appears in the index as a malformed/duplicated path:  
   `docs/render.yaml/n
+
+
+## Render Hosting Migration — Social/Comms Review (Francesca)
+
+### Objective
+Align public-facing messaging with the operational reality: **Render is now the hosting target**. Communications must be accurate, timed to deployment readiness, and consistent across channels.
+
+### Current comms artifacts (repo evidence)
+- Draft update exists: `docs/social-media/updates/2026-02-19-render-migration.md`.
+- A malformed/duplicated social-media artifact appears in the index as a path containing embedded newline escapes. This should be treated as **non-canonical** to avoid publishing the wrong copy.
+
+### Messaging requirements (non-negotiables)
+1. **Gate announcement on verification**
+   - Do not publish until a successful deployment test is confirmed (health endpoint reachable, basic smoke test passed).
+2. **Single source of truth**
+   - Use *one* canonical post file for the announcement (the clean `docs/social-media/updates/2026-02-19-render-migration.md`).
+3. **No unverified claims**
+   - Avoid promising “enhanced performance” unless measured. Prefer: “improved deployment workflow”, “more reliable releases”, “infrastructure modernization”.
+4. **Audience clarity**
+   - Community-facing: what changes (deployment platform), what doesn’t (no action required), what to expect (brief maintenance window if any).
+5. **Operational alignment**
+   - Reference Platform Administrator (Sandra) for technical confirmation, but do not tag individuals publicly unless policy allows.
+
+### Recommended announcement structure
+- **Headline:** “Infrastructure Migration to Render”
+- **What/Why:** migrating hosting to Render to streamline deployments and improve operational stability.
+- **Impact:** minimal/no user action; possible brief maintenance window (only if scheduled).
+- **Next update:** confirm when migration is complete and stable.
+
+### Channel-specific notes
+- **X/Twitter:** keep it factual; avoid emojis-heavy tone; include 2–4 tags max.
+- **Discord/Community:** include a short FAQ:
+  - “Will I need to do anything?” → No.
+  - “Will there be downtime?” → Only if scheduled; we’ll announce ahead.
+  - “Where to report issues?” → Provide the standard support/reporting path.
+
+### Risks to avoid
+- Publishing while DNS/SSL is still propagating (creates “it’s broken” perception).
+- Mentioning plan tier (“free plan”) publicly.
+- Overstating benefits without evidence.
+
+### Action items (comms)
+- [ ] Confirm deployment test success + health check pass (admin sign-off).
+- [ ] Select canonical post file and delete/ignore malformed duplicates (documentation hygiene).
+- [ ] Publish announcement + schedule follow-up “Migration Complete” post within 24–48h of stability confirmation.
+- [ ] Add a short internal note: exact publish time, responsible approver, and rollback messaging if needed.
