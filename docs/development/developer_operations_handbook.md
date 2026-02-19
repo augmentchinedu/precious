@@ -57,3 +57,34 @@ We will follow a simplified Gitflow model to ensure a clear separation of work.
     *   `DEV_SWITCH` files are a mechanism for developers to request manual operational changes that cannot be automated through the CI/CD pipeline.
     *   **Use Cases:** Toggling feature flags, running a one-off data migration script, or other sensitive manual interventions.
     *   **Protocol:** A developer proposes a `DEV_SWITCH` file in the `/dev` directory. This file must be reviewed and executed by Roni, who is responsible for assessing its impact on system stability before actioning it. This creates an audit trail for manual operations.
+
+
+## Hosting Standard: Render (Effective 2026-02-19)
+
+**Status:** Active  
+**Applies to:** The Great Unknown (Node/Express services)  
+**Owner:** Platform Administration (Sandra)
+
+### Summary
+All production hosting is standardized on **Render**. Any prior hosting approach should be treated as deprecated for current and new services.
+
+### Source of truth
+- Render blueprint/config: `docs/.render.yaml`
+- Ops reference: `docs/operations/README.md` (section: “Hosting: Render (Migration Standard)”)
+- Workflow reference: `docs/DEVELOPMENT_WORKFLOW.md` (section: “Hosting Standard: Render (Effective 2026-02-19)”)
+- Architecture decision: `docs/platform/ARCHITECTURE_DECISION_RECORD.md` (ADR: Hosting Standardization on Render)
+
+### Deployment expectations (Node/Express)
+- **Service type:** Web service (Node)
+- **Build command:** `npm install`
+- **Start command:** `npm start`
+- **Environment variables:** set `NODE_ENV=production` (plus any required secrets via Render dashboard)
+- **Auto-deploy:** enabled for the main branch (per Render configuration)
+- **Health verification:** validate the health endpoint if available (see `docs/src/routes/health.js`)
+
+### Operational rules
+- Do **not** commit secrets to the repository; configure them in Render.
+- If additional services are introduced, extend the Render blueprint and update ops/workflow documentation accordingly.
+
+### Change log
+- 2026-02-19: Hosting standard updated to Render.
