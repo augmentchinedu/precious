@@ -109,3 +109,48 @@ Align public-facing messaging with the operational reality: **Render is now the 
 2. **Artifact hygiene (blocking for operator clarity)**
    - FileIndex shows a malformed path that appears to be YAML content serialized into a filename:
      - `docs/render.yaml/n
+
+
+## Render Hosting Migration — Design/UX & Documentation Review (Sage)
+
+### Scope
+This review covers **operator-facing clarity**, **documentation UX**, and **release communication readiness** for the migration decision: “We would now have to use Render for hosting.”
+
+### What’s working
+- The migration direction is consistent with existing repo artifacts (Render config present; comms draft present).
+- Multiple roles already converged on the correct governance gate: **deploy verification + admin sign-off before public announcement**.
+
+### Primary UX/documentation issues (blocking for clarity)
+1. **No single “source of truth” for Render configuration**
+   - Repo signals conflict: `docs/.render.yaml` exists, while Render conventionally uses a root `render.yaml` or dashboard config.
+   - UX impact: contributors cannot quickly answer “Where do I change deployment settings?” which increases errors and slows onboarding.
+
+2. **Malformed/duplicated artifacts degrade information trust**
+   - FileIndex includes paths that appear to contain serialized YAML/newline escapes (Render + social media variants).
+   - UX impact: readers lose confidence in docs, and search/navigation becomes noisy; high risk of referencing the wrong artifact.
+
+3. **Service topology is not explained in a human-readable way**
+   - Platform nodes: `express`, `ai`, `store`, `game`, `currency`.
+   - UX impact: without an explicit “monolith MVP vs multi-service” statement, docs cannot communicate what will deploy, what will scale, and what operational expectations are.
+
+### Documentation/Design recommendations (concrete)
+- **Create a single “Render Deployment” doc section** that answers, in order:
+  1) Canonical config location (root `render.yaml` vs dashboard)  
+  2) Service model (single web service vs multiple services)  
+  3) Required env vars (list + ownership)  
+  4) Health check path (exact endpoint)  
+  5) Persistence statement (“ephemeral filesystem; use DB/object storage/Render disk if needed”)
+- **Add a short “Release Readiness” checklist** that comms can reference (smoke test, health check, SSL/DNS stability, rollback note).
+
+### Comms UX note (wording quality)
+- Avoid unverified claims like “enhanced performance.” Prefer verifiable phrasing:
+  - “modernized deployment workflow”
+  - “more reliable releases”
+  - “infrastructure migration to support scaling”
+
+### Acceptance criteria (for calling Render the default)
+- [ ] Canonical Render config source is explicitly documented (and duplicates marked non-canonical).
+- [ ] Malformed artifacts are quarantined/cleaned (or at minimum clearly labeled as invalid).
+- [ ] Deployment topology decision is written in plain language (what runs where).
+- [ ] Health endpoint is confirmed reachable in the running service and documented for Render health checks.
+- [ ] Public announcement is published only after successful deploy + smoke test + SSL/DNS stability confirmation.
