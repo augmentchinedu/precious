@@ -7,6 +7,6 @@
 [submodule "modules/models"]
 	path = modules/models
 	url = https://github.com/augmentchinedu/models
-[submodule "modules/build"]
-	path = modules/build
-	url = https://github.com/augmentchinedu/build
+[submodule "modules/components"]
+	path = modules/components
+	url = https://github.com/augmentchinedu/components
