@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --import dotenv/config index.js"
+    "start": "node --import dotenv/config index.js",
+    "dev": "node --import dotenv/config --watch index.js",
+    "test": "vitest --watch",
+    "test:run": "vitest"
   },
   "repository": {
     "type": "git",
@@ -19,14 +22,20 @@
   },
   "homepage": "https://github.com/augmentchinedu/precious#readme",
   "dependencies": {
+    "@google-cloud/storage": "^7.19.0",
     "@google/genai": "^1.42.0",
+    "chokidar": "^5.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "fs-extra": "^11.3.3",
     "js-yaml": "^4.1.1",
     "mongoose": "^8.23.0",
     "morgan": "^1.10.1",
     "pino": "^10.3.1",
     "simple-git": "^3.31.1"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18"
   }
 }

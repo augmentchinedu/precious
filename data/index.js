@@ -4,7 +4,7 @@ export const files = await readFilesRecursively(process.cwd());
 
 export const platform = {
   name: "The Great Unknown",
-  nodes: ["express", "ai", "store", "game", "currency"],
+  services: ["express", "ai", "stores", "games", "currency"],
   description: "An Online Web Ecosystem",
   members: [
     {
@@ -37,6 +37,24 @@ export const platform = {
       type: "agent",
     },
   ],
+  ministries: [
+    {
+      name: "Finance",
+      members: [
+        {
+          name: "Beauty",
+          role: "Minister",
+          type: "human",
+        },
+        {
+          name: "Shinene",
+          role: "Assistant",
+          type: "agent",
+        },
+      ],
+    },
+
+  ],
   communities: [
     {
       name: "Augment Plus",
@@ -53,7 +71,7 @@ export const platform = {
           type: "agent",
         },
         {
-          name: "Beauty",
+          name: "Soteria",
           role: "Assistant",
           type: "agent",
         },
@@ -89,7 +107,6 @@ export const platform = {
         "Node.js Server-Side Development",
         "Software Engineering",
       ],
-      services: ["games", "currency"],
       modules: [
         {
           name: "node",
@@ -111,3 +128,5 @@ export const platform = {
     },
   ],
 };
+
+const routes = []

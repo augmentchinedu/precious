@@ -10,3 +10,12 @@
 [submodule "modules/components"]
 	path = modules/components
 	url = https://github.com/augmentchinedu/components
+[submodule "modules/build"]
+	path = modules/build
+	url = https://github.com/augmentchinedu/build
+[submodule "modules/controllers"]
+	path = modules/controllers
+	url = https://github.com/augmentchinedu/controllers
+[submodule "modules/tests"]
+	path = modules/tests
+	url = https://github.com/augmentchinedu/tests

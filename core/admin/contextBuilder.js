@@ -1,6 +1,6 @@
 // ai/core/contextBuilder.js
-import { files, platform } from '../data/index.js';
-import { getLatestCommit, getRecentCommits } from '../utility/git.js';
+import { files, platform } from '../../data/index.js';
+import { getLatestCommit, getRecentCommits } from '../../utility/git.js';
 
 import fs from 'fs';
 import path from 'path';

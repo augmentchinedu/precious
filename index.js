@@ -1,4 +1,6 @@
 // index.js
+import "./core/development/sync.js";
+
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
@@ -7,11 +9,11 @@ import fs from "fs/promises";
 import yaml from "js-yaml";
 
 import { getNewSessionLogFile } from "./utility/index.js";
-import { loadAgents } from "./core/agentsLoader.js";
-import { buildContext } from "./core/contextBuilder.js";
-import { generateStructured } from "./core/generate.js";
+import { loadAgents } from "./core/admin/agentsLoader.js";
+import { buildContext } from "./core/admin/contextBuilder.js";
+import { generateStructured } from "./core/admin/generate.js";
 import { extractFileAction } from "./utility/index.js";
-import { ExecutionControllerV2 } from "./core/executionControllerV2.js";
+import { ExecutionControllerV2 } from "./core/admin/executionControllerV2.js";
 import { getLatestCommit } from "./utility/git.js";
 
 const app = express();
