@@ -1,7 +1,7 @@
 // upload/index.js
 import { Storage } from "@google-cloud/storage";
 
-import { nodes, routes } from "../../../data/index.js";
+import { nodes, routes } from "../../data/index.js";
 
 const BUCKET_NAME = "great-unknown.appspot.com"; // your bucket
 const GCS_FOLDER = "cdn"; // subfolder in bucket

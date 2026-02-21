@@ -1,5 +1,5 @@
 // index.js
-import "./core/development/sync.js";
+import "./core/development/index.js";
 
 import express from "express";
 import morgan from "morgan";
@@ -222,7 +222,7 @@ app.post("/api/run", async (req, res) => {
 /* =====================================================
    Start Server
 ===================================================== */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5050;
 
 async function startServer() {
   try {
