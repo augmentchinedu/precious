@@ -10,25 +10,30 @@ export function startNextProcess() {
 
     console.log(`🚀 Starting ${node.name} on port ${node.port}`);
 
-    const child = spawn(process.execPath, ["index.js"], {
-      cwd: nodePath,
-      env: {
-        ...process.env,
-        PORT: String(node.port),
-        APP_NAME: node.name,
-      },
-      stdio: "inherit",
-      detached: true,
-    });
-
-    process.on("exit", () => {
-      for (const child of runningProcesses) {
-        try {
-          process.kill(child.pid);
-        } catch {}
+    const child = spawn(
+      process.platform === "win32" ? "npm.cmd" : "npm",
+      ["run", "start"],
+      {
+        cwd: nodePath,
+        env: {
+          ...process.env,
+          PORT: String(node.port),
+          APP_NAME: node.name,
+        },
+        stdio: "inherit",
+        detached: true,
       }
-    });
+    );
 
     runningProcesses.push(child);
   }
 }
+
+// Kill all children on exit (only once)
+process.on("exit", () => {
+  for (const child of runningProcesses) {
+    try {
+      process.kill(child.pid);
+    } catch {}
+  }
+});
