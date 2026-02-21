@@ -2,9 +2,35 @@ import { readFilesRecursively } from "../utility/index.js";
 
 export const files = await readFilesRecursively(process.cwd());
 
+export const nodes = [
+  {
+    id: "express",
+    name: "The Great Unknown Express",
+    port: 3000,
+  },
+  { id: "ai", name: "The AI Community", port: 5000 },
+  { id: "stores", name: "Great Unknown Stores", port: 3001 },
+  { id: "games", name: "The Gaming Community", port: 6000 },
+  { id: "currency", name: "Existing Currencies", port: 7000 },
+];
+
+export const routes = {
+  auth: [
+    { path: "signin", controller: "signIn" },
+    { path: "signup", controller: "signUp" },
+    { path: "refreshToken", controller: "refreshToken" },
+  ],
+  client: [{ path: ":id", controller: "getClient" }],
+  games: [{ path: ":id", controller: "getGame" }],
+  users: [{ path: ":id", controller: "getUser" }],
+  stores: [
+    { path: "create", controller: "createStore" },
+    { path: ":id", controller: "getStore" },
+  ],
+};
+
 export const platform = {
   name: "The Great Unknown",
-  services: ["express", "ai", "stores", "games", "currency"],
   description: "An Online Web Ecosystem",
   members: [
     {
@@ -53,7 +79,6 @@ export const platform = {
         },
       ],
     },
-
   ],
   communities: [
     {
@@ -127,6 +152,5 @@ export const platform = {
       ],
     },
   ],
+  nodes,
 };
-
-const routes = []

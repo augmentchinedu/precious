@@ -2,22 +2,20 @@
 import { copy, ensureDir, pathExists } from "fs-extra";
 import chokidar from "chokidar";
 import path from "path";
-
-import { platform } from "../../data/index.js";
-
-const nodes = platform.services; // array of node names
+import "./upload/index.js";
+import { nodes } from "../../data/index.js";
 
 // Source modules
 const MODULES_DIR = path.resolve("modules");
 const NODE_MODULES = ["node", "build", "controllers"]; // modules to copy
 
 // Sync a module folder into a specific node
-async function syncModuleToNode(nodeName, moduleFolder) {
+async function syncModuleToNode(node, moduleFolder) {
   const src = path.join(MODULES_DIR, moduleFolder);
   const dest =
     moduleFolder === "node"
-      ? path.join("dev/node", nodeName) // root of node
-      : path.join("dev/node", nodeName, moduleFolder);
+      ? path.join("dev/node", node.id) // root of node
+      : path.join("dev/node", node.id, moduleFolder);
 
   if (!(await pathExists(src))) return; // skip if module doesn't exist
 
@@ -35,7 +33,7 @@ async function syncModuleToNode(nodeName, moduleFolder) {
         return true;
       },
     });
-    console.log(`Synced ${src} → ${dest}`);
+    // console.log(`Synced ${src} → ${dest}`);
   } catch (err) {
     console.error(`Error syncing ${src} → ${dest}:`, err.message);
   }
