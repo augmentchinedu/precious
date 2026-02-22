@@ -1,4 +1,3 @@
 platform_architect:
   update: >
-    Review our platform along with the Action Plan.
-    
+    We no longer use Render. We are now fully GCP integrated
