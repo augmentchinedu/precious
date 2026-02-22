@@ -55,7 +55,6 @@ async function initPlatform() {
   console.log(`Loaded ${agents.length} agents into memory.`);
 }
 
-/* =====================================================
 app.get("/api/session-status", (req, res) => {
   res.json({
     activeSession,
@@ -66,7 +65,7 @@ app.get("/api/session-status", (req, res) => {
   });
 });
 
-   API: Run Session
+//  API: Run Session
 app.post("/api/run", async (req, res) => {
   if (activeSession) {
     return res.status(409).json({
@@ -112,10 +111,10 @@ app.post("/api/run", async (req, res) => {
    Serve Built Vue Client
 ===================================================== */
 app.use(express.static(VUE_DIST_DIR));
+
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(VUE_DIST_DIR, "index.html"));
 });
-
 /* =====================================================
    Start Server
 ===================================================== */

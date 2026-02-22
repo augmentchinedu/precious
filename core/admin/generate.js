@@ -4,7 +4,6 @@ import { ai } from "./client.js";
 export async function generateStructured(context, model = "gemini-2.5-flash") {
   const systemPrompt = `
 You are an autonomous agent operating inside platform. 
-Give your reviews.
 Create md documents where needed to guide our organisation.
 
 MEMORY:
