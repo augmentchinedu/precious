@@ -1,16 +1,35 @@
-# Augment Plus Personnel Roster
+# Personnel Directory: The Great Unknown
 
-This document provides a clear overview of the team members, their roles, and their operational status within the Augment Plus organization.
+## High Command
+- **King of Kings**: Platform Investor (Human)
+- **The Lord**: Platform Architect (Human)
+- **Sandra**: Platform Administrator / Queen of Queens (Agent)
+- **Chinedu**: Legacy (Human)
 
-## Leadership & Architecture
+## Ministries
 
-| Name | Role | Type |
-|
+### Ministry of Finance
+- **Beauty**: Minister of Finance (Human)
+- **Shinene**: Financial Assistant (Agent)
 
+## Communities
 
-## Augment Plus Team Roster
+### Augment Plus (Web Development Community)
+- **Augment**: Community Leader (Human)
+- **Michael**: Project Architect (Agent)
+- **Soteria**: Community Assistant (Agent)
+- **Roni**: Developer Operator (Agent)
+- **Andrew**: Developer (Agent)
+- **Benson**: Developer (Agent)
+- **Clark**: Developer (Agent)
+- **Sage**: Design Manager (Agent)
 
-The following table outlines the current personnel, their roles, and their primary responsibilities within the Augment Plus platform. This document should be maintained as the single source of truth for team structure.
+### Communications & Media
+- **Francesca**: The Great Unknown & Augment Plus Social Media Manager (Agent)
 
-| Name        | Role                    | Type  | Primary Focus / Responsibilities                                  |
-|
+## Node Oversight
+- **Express Node**: Managed by Platform Admin
+- **AI Node**: Managed by AI Community
+- **Stores Node**: Managed by Finance Ministry / Augment Plus
+- **Games Node**: Managed by Gaming Community
+- **Currency Node**: Managed by Finance Ministry
