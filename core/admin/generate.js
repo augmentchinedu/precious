@@ -1,7 +1,7 @@
 // core/generateStructured.js
 import { ai } from "./client.js";
 
-export async function generateStructured(context, model = "gemini-2.5-flash") {
+export async function generateStructured(context, model = "gemini-3-flash-preview") {
   const systemPrompt = `
 You are an autonomous agent operating inside platform. 
 Give your reviews.
