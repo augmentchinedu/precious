@@ -10,11 +10,9 @@ import yaml from "js-yaml";
 
 import { getNewSessionLogFile } from "./utility/index.js";
 import { loadAgents } from "./core/admin/agentsLoader.js";
-import { buildContext } from "./core/admin/contextBuilder.js";
-import { generateStructured } from "./core/admin/generate.js";
-import { extractFileAction } from "./utility/index.js";
 import { ExecutionControllerV2 } from "./core/admin/executionControllerV2.js";
 import { getLatestCommit } from "./utility/git.js";
+import { runSession } from "./core/session/sessionRunner.js";
 
 const app = express();
 app.use(cors());
@@ -66,126 +64,6 @@ async function initPlatform() {
 }
 
 /* =====================================================
-   Background Session Runner
-===================================================== */
-async function runSession(sessionId, sessionFile) {
-  try {
-    console.log(`Running session engine for ${sessionId}`);
-
-    const commit = getLatestCommit() || {};
-
-    await fs.appendFile(
-      sessionFile,
-      `
-# SESSION START
-Date: ${new Date().toISOString()}
-
-## Git Snapshot
-Hash: ${commit.hash || "N/A"}
-Author: ${commit.author || "N/A"}
-Message: ${commit.message || "N/A"}
-Date: ${commit.date || "N/A"}
-
----
-`,
-      "utf-8"
-    );
-
-    // inside runSession()
-    async function safeGenerate(context, maxRetries = 5) {
-      let attempts = 0;
-      while (attempts < maxRetries) {
-        try {
-          return await generateStructured(context);
-        } catch (err) {
-          if (err?.error?.code === 429) {
-            attempts++;
-            const delayMs = attempts * 2000;
-            console.warn(
-              `429 RESOURCE_EXHAUSTED for ${
-                context.agent?.name || "unknown"
-              }, retrying in ${delayMs}ms...`
-            );
-            await new Promise((r) => setTimeout(r, delayMs));
-          } else {
-            throw err;
-          }
-        }
-      }
-      throw new Error(
-        `Max retries reached for agent ${context.agent?.name || "unknown"}`
-      );
-    }
-
-    for (const agent of agents) {
-      try {
-        const context = buildContext(agent, debateLog);
-        await new Promise((r) => setTimeout(r, 500)); // throttle
-
-        const raw = await safeGenerate(context);
-
-        await fs.appendFile(
-          sessionFile,
-          `\n### Agent: ${agent.name} (${agent.role})\n\n${raw}\n\n---\n`,
-          "utf-8"
-        );
-
-        const action = extractFileAction(raw);
-        if (action) {
-          const result = await executionController.processAction(
-            action,
-            agent,
-            sessionId
-          );
-          if (!result.success) {
-            await fs.appendFile(
-              sessionFile,
-              `Execution failed: ${result.error?.message}\n`,
-              "utf-8"
-            );
-            console.error(
-              `Execution failed for ${agent.name}:`,
-              result.error?.message
-            );
-          }
-        }
-
-        debateLog.push({
-          agent: agent.name,
-          role: agent.role,
-          response: raw,
-          timestamp: new Date().toISOString(),
-        });
-      } catch (agentError) {
-        await fs.appendFile(
-          sessionFile,
-          `Agent error: ${agentError.message}\n`,
-          "utf-8"
-        );
-        console.error(
-          `Agent ${agent?.name || "unknown"} failed:`,
-          agentError.message
-        );
-      }
-    }
-
-    await fs.appendFile(sessionFile, `\n# SESSION COMPLETE\n\n`, "utf-8");
-    console.log(`Session ${sessionId} completed. Logged to: ${sessionFile}`);
-  } catch (err) {
-    console.error(`Session ${sessionId} crashed:`, err);
-    try {
-      await fs.appendFile(
-        sessionFile,
-        `\n# SESSION CRASH\nError: ${err.message}\n`,
-        "utf-8"
-      );
-    } catch {}
-  } finally {
-    activeSession = null;
-  }
-}
-
-/* =====================================================
    API: Run Session
 ===================================================== */
 app.post("/api/run", async (req, res) => {
@@ -198,7 +76,7 @@ app.post("/api/run", async (req, res) => {
 
   try {
     const sessionFile = await getNewSessionLogFile();
-    const sessionId = path.basename(sessionFile, ".log");
+    const sessionId = path.basename(sessionFile, ".md");
 
     debateLog = [];
     activeSession = sessionId;
@@ -212,7 +90,17 @@ app.post("/api/run", async (req, res) => {
       sessionFile,
     });
 
-    runSession(sessionId, sessionFile);
+    runSession({
+      sessionId,
+      sessionFile,
+      agents,
+      executionController,
+      getLatestCommit,
+      getDebateLog: () => debateLog,
+      setActiveSession: (value) => {
+        activeSession = value;
+      },
+    });
   } catch (err) {
     console.error("Run error:", err);
     if (!res.headersSent) res.status(500).json({ error: err.message });
