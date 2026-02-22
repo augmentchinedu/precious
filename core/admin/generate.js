@@ -3,7 +3,7 @@ import { ai } from "./client.js";
 import { normalizeModelName, DEFAULT_MODEL } from "./modelConfig.js";
 import { getCachedSystemFooter } from "./promptBlocks.js";
 
-export async function generateStructured(context, model = DEFAULT_MODEL) {
+export async function generateStructured(context, model = "gemini-3.1-pro-preview ") {
   const systemPrompt = `
 You are an autonomous agent operating inside platform. 
 Give your reviews.

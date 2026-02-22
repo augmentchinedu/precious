@@ -20,13 +20,15 @@ export async function getNewSessionLogFile() {
   return path.join(LOGS_DIR, `session_${nextNumber}.md`);
 }
 
-// Recursive function to read all files in a directory
+const LARGE_FILE_SIZE = 5 * 1024 * 1024; // 5MB threshold for "large" binaries
+
 export async function readFilesRecursively(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
   const files = {};
 
   for (const entry of entries) {
 
+    // Skip common directories and git/log folders
     if (entry.name === "node_modules" || entry.name === ".git" || entry.name === "logs") {
       continue;
     }
@@ -36,7 +38,19 @@ export async function readFilesRecursively(dir) {
     if (entry.isDirectory()) {
       Object.assign(files, await readFilesRecursively(fullPath));
     } else if (entry.isFile()) {
+      // Skip package-lock.json
+      if (entry.name === 'package-lock.json') continue;
+
+      // Skip large binary files by extension or size
+      const ext = path.extname(entry.name).toLowerCase();
+      const skipExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mov', '.zip', '.tar', '.gz', '.mp3', '.wav'];
       try {
+        const stats = await fs.stat(fullPath);
+
+        if (skipExtensions.includes(ext) || stats.size > LARGE_FILE_SIZE) {
+          continue;
+        }
+
         files[fullPath.replace(process.cwd() + path.sep, '')] = await fs.readFile(fullPath, 'utf-8');
       } catch (err) {
         console.error(`Failed to read file ${fullPath}:`, err.message);

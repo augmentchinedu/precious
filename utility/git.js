@@ -1,13 +1,17 @@
-import { execSync } from 'child_process';
+import { execSync, execFileSync } from 'child_process';
 
 export function getLatestCommit() {
   try {
-    const hash = execSync('git rev-parse HEAD').toString().trim();
-    const message = execSync(
-      'git log -1 --pretty=format:"%B"'
-    ).toString().trim();
-    const author = execSync('git log -1 --pretty=%an').toString().trim();
-    const date = execSync('git log -1 --pretty=%ad').toString().trim();
+    const hash = execFileSync('git', ['rev-parse', 'HEAD']).toString().trim();
+    const message = execFileSync('git', ['log', '-1', '--pretty=format:%B'])
+      .toString()
+      .trim();
+    const author = execFileSync('git', ['log', '-1', '--pretty=%an'])
+      .toString()
+      .trim();
+    const date = execFileSync('git', ['log', '-1', '--pretty=%ad'])
+      .toString()
+      .trim();
 
     return {
       hash,
@@ -22,9 +26,11 @@ export function getLatestCommit() {
 
 export function getRecentCommits(limit = 5) {
   try {
-    const raw = execSync(
-      `git log -${limit} --pretty=format:"%h|%an|%ad|%s"`
-    )
+    const raw = execFileSync('git', [
+      'log',
+      `-${limit}`,
+      '--pretty=format:%h|%an|%ad|%s'
+    ])
       .toString()
       .trim();
 
@@ -39,8 +45,8 @@ export function getRecentCommits(limit = 5) {
 
 export function autoCommit(message) {
   try {
-    execSync('git add .');
-    execSync(`git commit -m "${message}"`);
+    execFileSync('git', ['add', '.']);
+    execFileSync('git', ['commit', '-m', message]);
     console.log("Changes committed.");
   } catch (err) {
     console.log("No changes to commit.");

@@ -36,9 +36,6 @@ export class FileSystemManager {
 
     let normalized = path.normalize(relativePath).replace(/\\/g, "/").trim();
 
-    // Prevent traversal
-    if (normalized.includes("..")) throw new PathTraversalError("Directory traversal detected");
-
     // Prepend "docs/" if missing
     if (!normalized.startsWith("docs/")) normalized = path.posix.join("docs", normalized);
 
@@ -49,8 +46,10 @@ export class FileSystemManager {
     const gitPath = normalized; // renamed from relativePath
 
     // Ensure path is inside root
-    if (!absolutePath.startsWith(this.rootDir))
+    const relativeToRoot = path.relative(this.rootDir, absolutePath);
+    if (relativeToRoot.startsWith("..") || path.isAbsolute(relativeToRoot)) {
       throw new PathTraversalError("Path escapes repository root");
+    }
 
     return { absolutePath, relativePath: gitPath };
   }
