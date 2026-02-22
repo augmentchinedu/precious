@@ -41,6 +41,9 @@ async function fileExists(filePath) {
 }
 
 /* =====================================================
+app.use(express.static(GUI_DIST_DIR));
+
+/* =====================================================
    Platform Initialization
 ===================================================== */
 async function initPlatform() {
@@ -103,7 +106,24 @@ app.post("/api/run", async (req, res) => {
     });
   } catch (err) {
     console.error("Run error:", err);
-    if (!res.headersSent) res.status(500).json({ error: err.message });
+    if (!res.headersSent) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const indexPath = path.join(GUI_DIST_DIR, "index.html");
+    if (await fileExists(indexPath)) {
+      return res.sendFile(indexPath);
+    }
+
+    return res
+      .status(503)
+      .send("GUI is unavailable. Build the Vue app in /vue first.");
+  } catch (error) {
+    return next(error);
   }
 });
 
