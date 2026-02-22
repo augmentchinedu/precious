@@ -7,11 +7,37 @@ export const nodes = [
     id: "express",
     name: "The Great Unknown Express",
     port: 3000,
+    prod: "https://gkrane.online/",
+    dev: "https://bawell.online",
   },
-  { id: "ai", name: "The AI Community", port: 5000 },
-  { id: "stores", name: "Great Unknown Stores", port: 3001 },
-  { id: "games", name: "The Gaming Community", port: 6000 },
-  { id: "currency", name: "Existing Currencies", port: 7000 },
+  {
+    id: "ai",
+    name: "The AI Community",
+    port: 5000,
+    prod: "https://ai.gkrane.online",
+    dev: "https://ai.bawell.online",
+  },
+  {
+    id: "stores",
+    name: "Great Unknown Stores",
+    port: 3001,
+    prod: "https://stores.gkrane.online",
+    dev: "https://stores.bawell.online",
+  },
+  {
+    id: "games",
+    name: "The Gaming Community",
+    port: 6000,
+    prod: "https://games.gkrane.online",
+    dev: "https://games.bawell.online",
+  },
+  {
+    id: "currency",
+    name: "Existing Currencies",
+    port: 7000,
+    prod: "https://currency.gkrane.online",
+    dev: "https://currency.bawell.online",
+  },
 ];
 
 export const routes = {
