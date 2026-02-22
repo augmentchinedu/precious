@@ -21,7 +21,7 @@ app.use(express.json());
 
 const ROOT = process.cwd();
 const RUN_FILE = path.join(ROOT, "run.yaml");
-const GUI_DIR = path.join(ROOT, "gui");
+const GUI_DIST_DIR = path.join(ROOT, "vue", "dist");
 
 let agents = [];
 let executionController;
@@ -43,10 +43,7 @@ async function fileExists(filePath) {
 /* =====================================================
    Serve Client
 ===================================================== */
-app.use("/assets", express.static(path.join(GUI_DIR, "assets")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(GUI_DIR, "index.html"));
-});
+app.use(express.static(GUI_DIST_DIR));
 
 /* =====================================================
    Platform Initialization
@@ -62,6 +59,13 @@ async function initPlatform() {
   agents = loadAgents();
   console.log(`Loaded ${agents.length} agents into memory.`);
 }
+
+app.get("/api/session-state", (req, res) => {
+  res.json({
+    isRunning: Boolean(activeSession),
+    activeSessionId: activeSession,
+  });
+});
 
 /* =====================================================
    API: Run Session
@@ -103,7 +107,24 @@ app.post("/api/run", async (req, res) => {
     });
   } catch (err) {
     console.error("Run error:", err);
-    if (!res.headersSent) res.status(500).json({ error: err.message });
+    if (!res.headersSent) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+});
+
+app.use(async (req, res, next) => {
+  try {
+    const indexPath = path.join(GUI_DIST_DIR, "index.html");
+    if (await fileExists(indexPath)) {
+      return res.sendFile(indexPath);
+    }
+
+    return res
+      .status(503)
+      .send("GUI is unavailable. Build the Vue app in /vue first.");
+  } catch (error) {
+    return next(error);
   }
 });
 
