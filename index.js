@@ -21,7 +21,7 @@ app.use(express.json());
 
 const ROOT = process.cwd();
 const RUN_FILE = path.join(ROOT, "run.yaml");
-const GUI_DIR = path.join(ROOT, "gui");
+const VUE_DIST_DIR = path.join(ROOT, "vue", "dist");
 
 let agents = [];
 let executionController;
@@ -41,14 +41,6 @@ async function fileExists(filePath) {
 }
 
 /* =====================================================
-   Serve Client
-===================================================== */
-app.use("/assets", express.static(path.join(GUI_DIR, "assets")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(GUI_DIR, "index.html"));
-});
-
-/* =====================================================
    Platform Initialization
 ===================================================== */
 async function initPlatform() {
@@ -64,8 +56,17 @@ async function initPlatform() {
 }
 
 /* =====================================================
+app.get("/api/session-status", (req, res) => {
+  res.json({
+    activeSession,
+    isRunning: Boolean(activeSession),
+    responsesCollected: debateLog.length,
+    agentsLoaded: agents.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
    API: Run Session
-===================================================== */
 app.post("/api/run", async (req, res) => {
   if (activeSession) {
     return res.status(409).json({
@@ -105,6 +106,14 @@ app.post("/api/run", async (req, res) => {
     console.error("Run error:", err);
     if (!res.headersSent) res.status(500).json({ error: err.message });
   }
+});
+
+/* =====================================================
+   Serve Built Vue Client
+===================================================== */
+app.use(express.static(VUE_DIST_DIR));
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(VUE_DIST_DIR, "index.html"));
 });
 
 /* =====================================================
