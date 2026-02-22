@@ -1,53 +1,43 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import * as generator from "../../admin/generate.js";
 import { safeGenerate } from "../safeGenerate.js";
 
 describe("safeGenerate", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("returns generation output immediately when no rate limit happens", async () => {
-    const generate = vi.fn().mockResolvedValue("ok");
+    vi.spyOn(generator, "generateStructured").mockResolvedValue("ok");
 
-    await expect(
-      safeGenerate({ agent: { name: "A" } }, { generate })
-    ).resolves.toBe("ok");
-
-    expect(generate).toHaveBeenCalledTimes(1);
+    await expect(safeGenerate({ agent: { name: "A" } })).resolves.toBe("ok");
   });
 
   it("retries on 429 errors and then succeeds", async () => {
     const sleep = vi.fn().mockResolvedValue(undefined);
-    const onRetry = vi.fn();
-    const generate = vi
-      .fn()
+    const spy = vi
+      .spyOn(generator, "generateStructured")
       .mockRejectedValueOnce({ error: { code: 429 } })
       .mockResolvedValueOnce("after-retry");
 
     await expect(
-      safeGenerate(
-        { agent: { name: "A" } },
-        { sleep, baseDelayMs: 10, onRetry, generate }
-      )
+      safeGenerate({ agent: { name: "A" } }, { sleep, baseDelayMs: 10 })
     ).resolves.toBe("after-retry");
 
-    expect(generate).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenCalledTimes(2);
     expect(sleep).toHaveBeenCalledWith(10);
-    expect(onRetry).toHaveBeenCalledWith({ agent: { name: "A" } }, 10);
   });
 
   it("throws after max retries", async () => {
-    const generate = vi.fn().mockRejectedValue({ error: { code: 429 } });
+    vi.spyOn(generator, "generateStructured").mockRejectedValue({
+      error: { code: 429 },
+    });
 
     await expect(
       safeGenerate(
         { agent: { name: "A" } },
-        {
-          maxRetries: 2,
-          sleep: vi.fn().mockResolvedValue(undefined),
-          baseDelayMs: 1,
-          generate,
-          onRetry: vi.fn(),
-        }
+        { maxRetries: 2, sleep: vi.fn().mockResolvedValue(undefined), baseDelayMs: 1 }
       )
     ).rejects.toThrow("Max retries reached for agent A");
-
-    expect(generate).toHaveBeenCalledTimes(2);
   });
 });

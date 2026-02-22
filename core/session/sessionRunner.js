@@ -3,8 +3,7 @@ import { buildContext } from "../admin/contextBuilder.js";
 import { extractFileAction } from "../../utility/index.js";
 import { safeGenerate } from "./safeGenerate.js";
 
-const defaultThrottle = (ms) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const throttle = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function formatSessionHeader(commit) {
   return `
@@ -29,9 +28,6 @@ export async function runSession({
   getLatestCommit,
   getDebateLog,
   setActiveSession,
-  buildAgentContext = buildContext,
-  generateAgentOutput = safeGenerate,
-  throttle = defaultThrottle,
 }) {
   try {
     console.log(`Running session engine for ${sessionId}`);
@@ -46,9 +42,6 @@ export async function runSession({
         sessionFile,
         executionController,
         getDebateLog,
-        buildAgentContext,
-        generateAgentOutput,
-        throttle,
       });
     }
 
@@ -62,9 +55,7 @@ export async function runSession({
         `\n# SESSION CRASH\nError: ${error.message}\n`,
         "utf-8"
       );
-    } catch {
-      // Ignore secondary errors when logging crash output.
-    }
+    } catch {}
   } finally {
     setActiveSession(null);
   }
@@ -76,16 +67,12 @@ async function processAgent({
   sessionFile,
   executionController,
   getDebateLog,
-  buildAgentContext,
-  generateAgentOutput,
-  throttle,
 }) {
   try {
-    const debateLog = getDebateLog();
-    const context = buildAgentContext(agent, debateLog);
+    const context = buildContext(agent, getDebateLog());
     await throttle(500);
 
-    const raw = await generateAgentOutput(context);
+    const raw = await safeGenerate(context);
 
     await fs.appendFile(
       sessionFile,
@@ -106,7 +93,7 @@ async function processAgent({
       }
     }
 
-    debateLog.push({
+    getDebateLog().push({
       agent: agent.name,
       role: agent.role,
       response: raw,

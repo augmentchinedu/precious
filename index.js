@@ -56,8 +56,6 @@ async function initPlatform() {
 }
 
 /* =====================================================
-   API
-===================================================== */
 app.get("/api/session-status", (req, res) => {
   res.json({
     activeSession,
@@ -68,6 +66,7 @@ app.get("/api/session-status", (req, res) => {
   });
 });
 
+   API: Run Session
 app.post("/api/run", async (req, res) => {
   if (activeSession) {
     return res.status(409).json({
