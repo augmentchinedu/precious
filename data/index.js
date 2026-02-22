@@ -58,6 +58,10 @@ export const routes = {
 export const platform = {
   name: "The Great Unknown",
   description: "An Online Web Ecosystem",
+  cloud: {
+    provider: "Google Cloud Platform",
+    serverless: "Cloud Run",
+  },
   members: [
     {
       name: "",

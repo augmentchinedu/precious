@@ -1,7 +1,7 @@
 {
-  "name": "precious-vue-gui",
+  "name": "vue",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.22"
+    "axios": "^1.13.5",
+    "vue": "^3.5.25"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.1.7"
+    "@vitejs/plugin-vue": "^6.0.2",
+    "vite": "^7.3.1"
   }
 }
