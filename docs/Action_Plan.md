@@ -1,145 +1,140 @@
-# Documentation Action Plan
-**Directive:** "Update all our documents. Keep Them Living. Migrate Needed Documentations to our new `docs/` dir."
-**Date:** 2026-02-23
-**Status:** Active
+# Documentation Action Plan – 48-Hour Split
+
+## 1. Code Implementation (Automatable / Developer Work)
+
+| Action                          | Priority | Tasks / Notes                                                         | Owner | Time Estimate |
+| ------------------------------- | -------- | --------------------------------------------------------------------- | ----- | ------------- |
+| Docs-as-Code enforcement in PRs | High     | - Add GitHub/GitLab Actions to fail PRs if documentation not updated. |       |               |
+
+* Check for changes in `README.md` or `docs/` folder when code changes. | All Devs / DevOps | 4–6h |
+  | CI Documentation Linting | Medium | - Implement link checker (`markdown-link-check`) for internal docs.
+* JSDoc syntax validation for Node.js services.
+* Markdown formatting checks. | DevOps / Roni | 6h |
+  | Inline API Documentation | High | - JSDoc templates for all public functions.
+* Swagger/OpenAPI generator integration (`swagger-jsdoc` / `openapi-generator`). | Backend Devs | 8h |
+  | Vue Component Docs Standardisation | High | - Auto-generate Storybook entries where possible.
+* Generate props/events tables from `.vue` files. | Frontend Devs | 6h |
+  | Add Practical Code Examples | Medium | - Use snippets in README.md and Swagger examples.
+* Include `curl` and live demos where possible. | All Devs | 4h |
+  | Expand `TESTING_STRATEGY.md` | Medium | - Add concrete examples for Node.js, Vue 3, HTML5 games.
+* Integrate with CI test coverage reporting. | Andrew / Benson / Clark | 4h |
+
+> Focus first on CI checks + inline docs – this ensures subsequent work is enforceable.
 
 ---
 
-## Summary of Issues Identified
+## 2. Governance / Prompting (Workflow, Reviews, Policies)
 
-Across reviews from Andrew, Benson, and Clark (Augment Plus Developers), three core problems were consistently raised:
+| Action                                | Priority | Tasks / Notes                                          | Owner | Time Estimate |
+| ------------------------------------- | -------- | ------------------------------------------------------ | ----- | ------------- |
+| Mandatory Documentation Review in PRs | High     | - Update PR templates to include doc update checklist. |       |               |
 
-1. **Documentation goes stale** — it doesn't keep pace with the codebase.
-2. **Documentation is scattered** — modules, services, and components lack local, discoverable docs.
-3. **No enforcement** — there are no automated or workflow-level gates to ensure documentation is maintained.
+* Add automated label or approval requirement if doc changes missing. | All Devs / Tech Leads | 1–2h |
+  | Module-Level README Policy | High | - Prompt devs to add `README.md` on service/module creation.
+* Track missing modules in internal dashboard / project board. | All Devs | 1h |
+  | Cross-Linking and Navigation | Low/Ongoing | - Establish standard linking guidelines for `docs/`.
+* Schedule weekly or bi-weekly audits. | All Devs | 2h |
+  | Inter-Service Communication Standards | Medium | - Governance: enforce API contract compliance.
+* Document conventions for serialization, auth, error handling. | Platform Architect / Michael | 2–3h |
 
----
-
-## Action Items
-
-### 1. Adopt Docs-as-Code
-**Priority:** High
-**Owner:** All Developers / Tech Leads
-
-- Treat documentation with the same discipline as source code.
-- Require documentation updates in every Pull Request that changes functionality, APIs, or operational behaviour.
-- Add documentation review as a mandatory PR checklist step.
+> Automate prompts in PR templates or commit hooks to prevent human oversight.
 
 ---
 
-### 2. Mandate Module-Level `README.md` Files
-**Priority:** High
-**Owner:** All Developers
+## 3. Human Actions (Manual / Knowledge-Driven)
 
-- Every service under `dev/node/<service-id>/` must have a `README.md`.
-- Every module under `modules/<module-name>/` must have a `README.md`.
-- Minimum content: overview, setup instructions, key interfaces/endpoints, links to `docs/`.
+| Action                                              | Priority | Tasks / Notes                                         | Owner | Time Estimate |
+| --------------------------------------------------- | -------- | ----------------------------------------------------- | ----- | ------------- |
+| Module-Level READMEs (`dev/node/*/` & `modules/*/`) | High     | - Write overviews, setup instructions, key endpoints. |       |               |
 
----
+* Link to `docs/` for standards. | All Devs | 6–8h |
+  | Vue Component Documentation | High | - Manual writeup for design considerations, usage examples. | Frontend Devs | 4–6h |
+  | HTML5 Game Development Guidelines | Medium | - Document logic patterns, asset management, cross-browser compatibility. | Game Devs / Tech Lead | 4–6h |
+  | Audit Existing `docs/` for Broken Links | Medium | - Manual review of critical paths. | All Devs | 2h |
+  | Migration to `docs/` Directory | Medium | - Move existing markdown files.
+* Update references across repos. | All Devs | 2–3h |
 
-### 3. Enforce Inline API Documentation
-**Priority:** High
-**Owner:** Backend Developers
-
-- All Node.js services and modules must use JSDoc comments on public functions and endpoints.
-- RESTful APIs must have OpenAPI/Swagger specifications covering endpoints, payloads, authentication, and error handling.
-- Documentation should be auto-generated from source where possible.
+> Manual actions are the bulk of the workload. Divide team to parallelize module READMEs + Vue component docs + game guidelines.
 
 ---
 
-### 4. Standardise Vue.js Component Documentation
-**Priority:** High
-**Owner:** Frontend Developers
+## Suggested 48-Hour Execution Order
 
-- All components in `modules/components/` require companion documentation (e.g., `Button.md` alongside `Button.vue`, or Storybook entries).
-- Must document: props, events, slots, usage examples, and design considerations.
+**Day 1:**
 
----
+1. Setup CI checks + PR templates (Code + Governance) – 6–8h
+2. Begin module README creation (Human) – 4–6h
+3. Start inline API documentation for Node.js services – 4–6h
 
-### 5. Create HTML5 Game Development Guidelines
-**Priority:** Medium
-**Owner:** Game Developers / Tech Lead
+**Day 2:**
 
-- Create `docs/development/games/` section.
-- Cover: game logic patterns, asset management, performance optimisation, cross-browser compatibility, and platform service integration.
-
----
-
-### 6. Add Practical Code Examples to All Documentation
-**Priority:** Medium
-**Owner:** All Developers
-
-- API docs must include working `curl` examples.
-- Component docs must include live demos or runnable snippets.
-- Module docs must include integration examples.
+1. Complete module READMEs + Vue component docs (Human) – 6–8h
+2. Expand `TESTING_STRATEGY.md` – 3–4h
+3. HTML5 game guidelines – 4–6h
+4. Audit `docs/` for broken links + cross-linking (Human/Governance) – 2–3h
+5. Verify CI enforcement works, PRs fail if docs missing (Code/Governance) – 2h
 
 ---
 
-### 7. Implement CI Documentation Linting
-**Priority:** Medium
-**Owner:** DevOps / Roni (Developer Operator)
+✅ By splitting along **Code Implementation, Governance Prompting, and Human Actions**, you ensure:
 
-- Add automated CI checks for:
-  - Broken internal links.
-  - Required README sections.
-  - Valid JSDoc syntax.
-  - Formatting standards compliance.
-- Fail the build on critical documentation violations.
+* Automation enforces compliance (CI + PR checks).
+* Developers know exactly where and what to write (module/Vue/game docs).
+* Migration to `docs/` is complete and discoverable.
+* Within 48 hours, all high-priority items can be achieved if the team works in parallel.
 
----
 
-### 8. Document Inter-Service Communication Standards
-**Priority:** Medium
-**Owner:** Platform Architect / Michael (Project Architect)
+## Strategic Initiatives Update (2026-02-24)
 
-- Create `docs/architecture/inter-service-communication.md`.
-- Cover: API contracts, data serialisation formats, authentication mechanisms, error handling patterns across Node.js services.
+This section details the action items and strategic direction based on the [Architect Directives of 2026-02-24](./platform/architect-directives-2026-02-24.md). It incorporates the technical strategy outlined in the [Architectural Response to Directives](./architecture/architectural-response-to-directives-2026-02-24.md) and acknowledges the financial review from the [Ministry of Finance](./ministries/finance/finance-ministry-review-of-architect-directives-2026-02-24.md).
 
----
+### 1. Core Architecture: Modular Refactoring
 
-### 9. Expand `TESTING_STRATEGY.md`
-**Priority:** Medium
-**Owner:** Andrew / Benson / Clark
+The primary technical goal is to complete the transition to a fully modular architecture as described in the [Modular Architecture Proposal](./architecture/MODULAR_ARCHITECTURE_PROPOSAL.md).
 
-- Add detailed examples for unit, integration, and end-to-end tests.
-- Cover: Node.js, Vue 3, and HTML5 Game contexts.
-- Include guidance on mock data, test frameworks, and CI integration.
+**Objective:** Refactor all services in `dev/node/` to consume shared, version-controlled modules from the `modules/` directory, eliminating code duplication and enforcing a clean separation of concerns.
 
----
+**Key Actions:**
 
-### 10. Improve Cross-Linking and Navigation
-**Priority:** Low (ongoing)
-**Owner:** All Developers
+- **Enhance Execution Controller V2:** Update `core/admin/executionControllerV2.js` to act as a secure module loader, enforcing access control based on a defined manifest.
+  - **Owner:** Michael (Project Architect)
+  - **Reference:** [Execution Controller V2 Enhancement](./architecture/architectural-response-to-directives-2026-02-24.md#3-execution-controller-v2-enhancement)
+- **Phase 1: Service Audit:** Conduct a comprehensive audit of all `dev/node/` services to identify and prioritize logic for extraction into shared modules.
+  - **Owner:** Henry (Lead Developer)
+  - **Reference:** [Service Refactoring Strategy](./architecture/architectural-response-to-directives-2026-02-24.md#2-service-refactoring-strategy)
+- **Phase 2 & 3: Module Development & Integration:** Develop robust, centralized modules and then iteratively refactor services to use them, starting with a pilot service.
+  - **Owner:** Augment Plus Development Team (Henry, Andrew, Benson, Clark)
+- **Financial Planning:** Provide detailed resource estimates for the refactoring effort to the Ministry of Finance.
+  - **Owner:** Henry, Michael
+  - **Reference:** [Finance Ministry Review](./ministries/finance/finance-ministry-review-of-architect-directives-2026-02-24.md#21-modular-architecture-refactoring)
 
-- Audit existing `docs/` for missing internal links.
-- Ensure every module README links to relevant architecture docs, coding standards, and deployment guides.
-- Assign periodic documentation review cycles.
+### 2. Developer Empowerment: Teams & Environments
 
----
+To boost productivity and collaboration, we will restructure our development workflow and provide improved tooling.
 
-## Migration Checklist (to `docs/` dir)
+**Objective:** Organize developers into focused teams and provide each team with an isolated, containerized development environment that mirrors production, complete with live terminal access.
 
-| Document / Area | Status | Owner |
-|---|---|---|
-| `CODING_STANDARDS.md` | ✅ Migrated | — |
-| `ENVIRONMENT_SETUP.md` | ✅ Migrated | — |
-| `DEVELOPMENT_WORKFLOW.md` | ✅ Migrated | — |
-| `TESTING_STRATEGY.md` | ⚠️ Needs expansion | All Devs |
-| `docs/design/DESIGN_SYSTEM.md` | ✅ Present | — |
-| `docs/architecture/agent-protocol-spec.md` | ✅ Present | — |
-| Module-level READMEs (`dev/node/*/`) | ❌ Missing | All Devs |
-| Module-level READMEs (`modules/*/`) | ❌ Missing | All Devs |
-| Vue component docs (`modules/components/`) | ❌ Missing | Frontend Devs |
-| API specs (Node.js services) | ❌ Missing | Backend Devs |
-| Game development guidelines | ❌ Missing | Game Devs |
-| Inter-service communication standards | ❌ Missing | Architect / Michael |
+**Key Actions:**
 
----
+- **Define Team Structure:** Formalize the creation of smaller, focused development teams within Augment Plus.
+  - **Owner:** Sandra (Platform Administrator), Michael (Project Architect)
+- **Architect Live Environments:** Design the container-based (Docker) development environments and the mechanism for secure terminal access.
+  - **Owner:** Roni (Developer Operator)
+  - **Reference:** [Live Development Environments](./architecture/architectural-response-to-directives-2026-02-24.md#4-live-development-environments)
+- **Cost Analysis:** Prepare a detailed cost projection and cost-benefit analysis for the new infrastructure and submit it to the Ministry of Finance.
+  - **Owner:** Roni
+  - **Reference:** [Finance Ministry Review](./ministries/finance/finance-ministry-review-of-architect-directives-2026-02-24.md#22-developer-team-environments--live-terminal-access)
 
-## Success Criteria
+### 3. Housekeeping: Documentation Cleanup
 
-- Every service and module has a local `README.md`.
-- No PR merges without a documentation review step.
-- CI pipeline catches broken links and missing doc sections automatically.
-- All public APIs have auto-generated or manually maintained OpenAPI specs.
-- `docs/` directory is the single source of truth, consistently cross-linked.
+To reduce confusion and streamline onboarding, we will finalize the migration away from legacy documentation.
+
+**Objective:** Fully deprecate and remove the `old-docs/` directory.
+
+**Key Actions:**
+
+- **Final Content Migration:** All members must ensure any critical information still in `old-docs/` is moved to the new `docs/` structure.
+  - **Owner:** All Team Members
+- **Directory Deletion:** The `old-docs/` directory will be permanently deleted from the repository.
+  - **Owner:** Sandra (Platform Administrator)
+  - **Deadline:** Within 5 sessions from 2026-02-24.
