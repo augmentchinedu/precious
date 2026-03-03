@@ -33,7 +33,7 @@ export async function generateStructured(context, model = "gemini-2.5-pro") {
   CAPABILITIES:
   - You may create or append Markdown (.md) files.
   - Developer agents may create or append .js or .vue files.
-  - .js and .vue files are routed automatically to /dev.
+  - .js and .vue files are routed automatically to /code.
   - .md files are routed automatically to /docs.
   
   FILE ACTION PROTOCOL (MANDATORY FORMAT):

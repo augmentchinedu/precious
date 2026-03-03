@@ -1,13 +1,11 @@
 platform_architect:
   update: >
-    We are working on the Action Plan.
+    We are to have an Action Plan doc. This would be for pending actions to be institutionalized.
 
-    I want to update the Execution Controller To Create access to modules. Modules are interclockable.
+    The Execution Controller now allows for writes to /docs and /code.
 
     I would be deleting the old-docs after the next 4 sessions.
 
-    Our Services are running based on modules.
+    Propose full file changes to /code dir. I would switch the codes from the code/ to the respoective module. with fill file changes.
 
-    Propose file changes to /code dir. I would switch the codes from the code/ to the respoective module. with fill file changes.
-
-    We want to have each developer have a development team. We want Each development Team to have access to a terminal for so running our codes and the state of our codes can be live.
+    We are to work link MD files properly from hence forth.
