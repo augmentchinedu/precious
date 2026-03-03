@@ -3,7 +3,7 @@ import { copy, ensureDir, pathExists, remove } from "fs-extra";
 import chokidar from "chokidar";
 import path from "path";
 import "./upload.js";
-import { nodes } from "../data/index.js";
+import { services } from "../data/index.js";
 
 // Source modules
 const MODULES_DIR = path.resolve("modules");
@@ -44,9 +44,9 @@ async function syncModuleToNode(node, moduleFolder) {
   }
 }
 
-// Initial sync to all nodes
+// Initial sync to all services
 export async function initialSync() {
-  for (const node of nodes) {
+  for (const node of services) {
     for (const moduleFolder of NODE_MODULES) {
       await syncModuleToNode(node, moduleFolder);
     }
@@ -66,8 +66,8 @@ export function watch() {
     const topFolder = relative.split(path.sep)[0];
 
     if (NODE_MODULES.includes(topFolder)) {
-      // Sync changed module to all nodes
-      for (const node of nodes) {
+      // Sync changed module to all services
+      for (const node of services) {
         await syncModuleToNode(node, topFolder);
       }
     }

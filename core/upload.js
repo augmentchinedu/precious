@@ -1,7 +1,7 @@
 // upload/index.js
 import { Storage } from "@google-cloud/storage";
 
-import { nodes, routes } from "../data/index.js";
+import { services, routes } from "../data/index.js";
 
 const BUCKET_NAME = "great-unknown.appspot.com"; // your bucket
 const GCS_FOLDER = "cdn"; // subfolder in bucket
@@ -33,5 +33,5 @@ async function uploadJSON(fileName, jsonData) {
   }
 }
 
-await uploadJSON("nodes.json", JSON.stringify(nodes));
+await uploadJSON("services.json", JSON.stringify(services));
 await uploadJSON("routes.json", JSON.stringify(routes));

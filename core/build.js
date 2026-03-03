@@ -1,25 +1,25 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
-import { nodes } from "../data/index.js";
+import { services } from "../data/index.js";
 
-const NODES_DIR = join(process.cwd(), "dev", "node");
+const services_DIR = join(process.cwd(), "dev", "node");
 
 export async function runBuilds() {
-  const nodeFolders = await readdir(NODES_DIR, { withFileTypes: true });
+  const nodeFolders = await readdir(services_DIR, { withFileTypes: true });
 
   for (const dirent of nodeFolders) {
     if (!dirent.isDirectory()) continue;
 
     const nodeId = dirent.name;
-    const nodeData = nodes.find((n) => n.id === nodeId);
+    const nodeData = services.find((n) => n.id === nodeId);
 
     if (!nodeData) {
       console.log(`⚠️ No node config for ${nodeId}`);
       continue;
     }
 
-    const nodePath = join(NODES_DIR, nodeId);
+    const nodePath = join(services_DIR, nodeId);
     const packagePath = join(nodePath, "package.json");
 
     try {

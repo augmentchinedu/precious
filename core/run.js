@@ -1,11 +1,11 @@
 import { spawn } from "node:child_process";
 import path from "node:path";
-import { nodes } from "../data/index.js";
+import { services } from "../data/index.js";
 
 const runningProcesses = [];
 
 export function startNextProcess() {
-  for (const node of nodes) {
+  for (const node of services) {
     const nodePath = path.join(process.cwd(), "dev", "node", node.id);
 
     console.log(`🚀 Starting ${node.name} on port ${node.port}`);
