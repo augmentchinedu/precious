@@ -56,6 +56,9 @@ export async function generateStructured(context, model = "gemini-2.5-pro") {
   `;
   const response = await ai.models.generateContent({
     model,
+    config: {
+      maxOutputTokens: 1500,
+    },
     contents: [
       {
         role: "user",
