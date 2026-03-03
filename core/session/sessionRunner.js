@@ -40,6 +40,15 @@ export async function runSession({
     const commit = getLatestCommit() || {};
     await fs.appendFile(sessionFile, formatSessionHeader(commit), "utf-8");
 
+    const SESSION_TOKEN_BUDGET = 12000;
+    const RESERVED_TOKENS = 2000;
+    const agentCount = Math.max(agents.length, 1);
+    const availableTokens = SESSION_TOKEN_BUDGET - RESERVED_TOKENS;
+
+    const perAgentTokenLimit = Math.floor(
+      availableTokens / agentCount
+    );
+
     for (const agent of agents) {
       await processAgent({
         agent,
@@ -47,6 +56,7 @@ export async function runSession({
         sessionFile,
         executionController,
         getDebateLog,
+        perAgentTokenLimit,
       });
     }
 
@@ -72,12 +82,15 @@ async function processAgent({
   sessionFile,
   executionController,
   getDebateLog,
+  perAgentTokenLimit,
 }) {
   try {
     const context = buildContext(agent, trimmedDebateLog(getDebateLog()));
     await throttle(SESSION_BASE_DELAY);
 
-    const raw = await safeGenerate(context);
+    const raw = await safeGenerate(context, {
+      maxOutputTokens: perAgentTokenLimit
+    });
 
     await fs.appendFile(
       sessionFile,

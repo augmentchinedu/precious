@@ -11,7 +11,7 @@ export async function safeGenerate(context, options = {}) {
 
   for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
     try {
-      return await generateStructured(context);
+      return await generateStructured(context, options);
     } catch (error) {
       if (isRateLimitError(error)) {
         if (attempt === maxRetries) break;
