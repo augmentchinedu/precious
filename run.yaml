@@ -1,3 +1,9 @@
 platform_architect:
   update: >
-    We no longer use Render. We are now fully GCP integrated
+    We are to have an Action Plan doc. This would be for pending actions to be institutionalized.
+
+    I would be deleting the old-docs after the next 3 sessions.
+
+    Propose full file changes into code/ dir.
+
+    link MD files properly from hence forth.

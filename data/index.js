@@ -38,6 +38,34 @@ export const nodes = [
     prod: "https://currency.gkrane.online",
     dev: "https://currency.bawell.online",
   },
+  {
+    id: "domains",
+    name: "Domain Management",
+    port: 6500,
+    prod: "https://gkrane.online/api/v1/domains",
+    dev: "https://bawell.online/api/v1/domains",
+  },
+  {
+    id: "accounts",
+    name: "Account Management",
+    port: 7100,
+    prod: "https://gkrane.online/api/v1/accounts",
+    dev: "https://bawell.online/api/v1/accounts",
+  },
+  {
+    id: "benita",
+    name: "WhatsApp Businesses",
+    port: 8000,
+    prod: "https://gkrane.online/api/v1/maserati",
+    dev: "https://bawell.online/api/v1/maserati",
+  },
+  {
+    id: "browsers",
+    name: "Chromium Service",
+    port: 9000,
+    prod: "https://gkrane.online/api/v1/browsers",
+    dev: "https://bawell.online/api/v1/browsers",
+  },
 ];
 
 export const routes = {
@@ -133,6 +161,11 @@ export const platform = {
         {
           name: "Roni",
           role: "Developer Operator",
+          type: "agent",
+        },
+        {
+          name: "Henry",
+          role: "Lead Developer",
           type: "agent",
         },
         {
