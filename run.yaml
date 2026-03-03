@@ -2,8 +2,8 @@ platform_architect:
   update: >
     We are to have an Action Plan doc. This would be for pending actions to be institutionalized.
 
-    I would be deleting the old-docs after the next 3 sessions.
+    I would be deleting the old-docs after the next 2 sessions.
+
+    We would be implementing hono to our node module and quitting express.
 
     Propose full file changes into code/ dir.
-
-    link MD files properly from hence forth.
