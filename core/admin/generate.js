@@ -1,7 +1,8 @@
 // core/generateStructured.js
 import { ai } from "./client.js";
 
-export async function generateStructured(context, model = "gemini-2.5-flash") {
+export async function generateStructured(context, options = {}) {
+  const model = options?.model || "gemini-2.5-flash";
   const systemPrompt = `
 You are an autonomous agent operating inside platform. 
 Create md documents where needed to guide our organisation.
@@ -42,6 +43,9 @@ STRICT RULES:
 
   const response = await ai.models.generateContent({
     model,
+    config: {
+      maxOutputTokens: options?.maxOutputTokens ?? 1500,
+    },
     contents: [
       {
         role: "user",

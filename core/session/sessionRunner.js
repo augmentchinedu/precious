@@ -4,6 +4,11 @@ import { extractFileAction } from "../../utility/index.js";
 import { safeGenerate } from "./safeGenerate.js";
 
 const throttle = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const SESSION_BASE_DELAY = 4000;
+
+function trimmedDebateLog(log, max = 4) {
+  return log.slice(-max);
+}
 
 function formatSessionHeader(commit) {
   return `
@@ -35,6 +40,15 @@ export async function runSession({
     const commit = getLatestCommit() || {};
     await fs.appendFile(sessionFile, formatSessionHeader(commit), "utf-8");
 
+    const SESSION_TOKEN_BUDGET = 12000;
+    const RESERVED_TOKENS = 2000;
+    const agentCount = Math.max(agents.length, 1);
+    const availableTokens = SESSION_TOKEN_BUDGET - RESERVED_TOKENS;
+
+    const perAgentTokenLimit = Math.floor(
+      availableTokens / agentCount
+    );
+
     for (const agent of agents) {
       await processAgent({
         agent,
@@ -42,6 +56,7 @@ export async function runSession({
         sessionFile,
         executionController,
         getDebateLog,
+        perAgentTokenLimit,
       });
     }
 
@@ -67,12 +82,15 @@ async function processAgent({
   sessionFile,
   executionController,
   getDebateLog,
+  perAgentTokenLimit,
 }) {
   try {
-    const context = buildContext(agent, getDebateLog());
-    await throttle(500);
+    const context = buildContext(agent, trimmedDebateLog(getDebateLog()));
+    await throttle(SESSION_BASE_DELAY);
 
-    const raw = await safeGenerate(context);
+    const raw = await safeGenerate(context, {
+      maxOutputTokens: perAgentTokenLimit
+    });
 
     await fs.appendFile(
       sessionFile,
@@ -100,7 +118,17 @@ async function processAgent({
       timestamp: new Date().toISOString(),
     });
   } catch (agentError) {
-    await fs.appendFile(sessionFile, `Agent error: ${agentError.message}\n`, "utf-8");
+    await fs.appendFile(
+      sessionFile,
+      `
+### Agent: ${agent.name} (${agent.role})
+
+⚠️ Unable to respond due to rate limiting. Turn reserved.
+
+---
+`,
+      "utf-8"
+    );
     console.error(
       `Agent ${agent?.name || "unknown"} failed:`,
       agentError.message
