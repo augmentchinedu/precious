@@ -1,3 +1,13 @@
 platform_architect:
   update: >
-    We no longer use Render. We are now fully GCP integrated
+    We are working on the Action Plan.
+
+    I want to update the Execution Controller To Create access to modules. Modules are interclockable.
+
+    I would be deleting the old-docs after the next 4 sessions.
+
+    Our Services are running based on modules.
+
+    Propose file changes to /code dir. I would switch the codes from the code/ to the respoective module. with fill file changes.
+
+    We want to have each developer have a development team. We want Each development Team to have access to a terminal for so running our codes and the state of our codes can be live.
