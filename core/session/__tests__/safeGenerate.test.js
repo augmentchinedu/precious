@@ -21,11 +21,48 @@ describe("safeGenerate", () => {
       .mockResolvedValueOnce("after-retry");
 
     await expect(
-      safeGenerate({ agent: { name: "A" } }, { sleep, baseDelayMs: 10 })
+      safeGenerate(
+        { agent: { name: "A" } },
+        { sleep, baseDelayMs: 10, random: () => 1 }
+      )
     ).resolves.toBe("after-retry");
 
     expect(spy).toHaveBeenCalledTimes(2);
     expect(sleep).toHaveBeenCalledWith(10);
+  });
+
+  it("retries on RESOURCE_EXHAUSTED status errors", async () => {
+    const sleep = vi.fn().mockResolvedValue(undefined);
+    const spy = vi
+      .spyOn(generator, "generateStructured")
+      .mockRejectedValueOnce({ status: "RESOURCE_EXHAUSTED" })
+      .mockResolvedValueOnce("after-retry");
+
+    await expect(
+      safeGenerate(
+        { agent: { name: "A" } },
+        { sleep, baseDelayMs: 10, random: () => 1 }
+      )
+    ).resolves.toBe("after-retry");
+
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(sleep).toHaveBeenCalledWith(10);
+  });
+
+  it("uses retry-after header when available", async () => {
+    const sleep = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(generator, "generateStructured")
+      .mockRejectedValueOnce({
+        code: 429,
+        headers: { "retry-after": "3" },
+      })
+      .mockResolvedValueOnce("after-retry");
+
+    await expect(
+      safeGenerate({ agent: { name: "A" } }, { sleep, baseDelayMs: 10 })
+    ).resolves.toBe("after-retry");
+
+    expect(sleep).toHaveBeenCalledWith(3000);
   });
 
   it("throws after max retries", async () => {
