@@ -25,6 +25,7 @@ export class AppendError extends FileSystemManagerError { }
 export class FileSystemManager {
   constructor(rootDir) {
     this.rootDir = rootDir;
+    this.allowedRoots = ["docs", "code"];
   }
 
   /**
@@ -36,11 +37,22 @@ export class FileSystemManager {
 
     let normalized = path.normalize(relativePath).replace(/\\/g, "/").trim();
 
-    // Prepend "docs/" if missing
-    if (!normalized.startsWith("docs/")) normalized = path.posix.join("docs", normalized);
+    if (!normalized) throw new PathTraversalError("Path is empty");
 
-    // Append .md if no extension
-    if (!path.extname(normalized)) normalized += ".md";
+    const [rootFolder] = normalized.split("/");
+
+    // Preserve backward compatibility by defaulting to docs/
+    if (!this.allowedRoots.includes(rootFolder)) {
+      normalized = path.posix.join("docs", normalized);
+    }
+
+    const [validatedRoot] = normalized.split("/");
+    if (!this.allowedRoots.includes(validatedRoot)) {
+      throw new PathTraversalError("Path must be within docs/ or code/");
+    }
+
+    // Keep docs behavior; code paths should retain explicit filenames
+    if (validatedRoot === "docs" && !path.extname(normalized)) normalized += ".md";
 
     const absolutePath = path.join(this.rootDir, normalized);
     const gitPath = normalized; // renamed from relativePath

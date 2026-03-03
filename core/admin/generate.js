@@ -42,6 +42,9 @@ STRICT RULES:
 
   const response = await ai.models.generateContent({
     model,
+    config: {
+      maxOutputTokens: 1500,
+    },
     contents: [
       {
         role: "user",
