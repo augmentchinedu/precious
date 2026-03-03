@@ -7,11 +7,13 @@ export async function safeGenerate(context, options = {}) {
     maxDelayMs = 30000,
     random = Math.random,
     sleep = defaultSleep,
+    model,
+    maxOutputTokens,
   } = options;
 
   for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
     try {
-      return await generateStructured(context, options);
+      return await generateStructured(context, { model, maxOutputTokens });
     } catch (error) {
       if (isRateLimitError(error)) {
         if (attempt === maxRetries) break;
