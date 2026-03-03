@@ -2,10 +2,8 @@ platform_architect:
   update: >
     We are to have an Action Plan doc. This would be for pending actions to be institutionalized.
 
-    The Execution Controller now allows for writes to /docs and /code.
+    I would be deleting the old-docs after the next 3 sessions.
 
-    I would be deleting the old-docs after the next 4 sessions.
+    Propose full file changes into code/ dir.
 
-    Propose full file changes to /code dir. I would switch the codes from the code/ to the respoective module. with fill file changes.
-
-    We are to work link MD files properly from hence forth.
+    link MD files properly from hence forth.
