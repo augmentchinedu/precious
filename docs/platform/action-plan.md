@@ -30,3 +30,17 @@ This document tracks high-level, pending actions that need to be institutionaliz
 
 | # | Action Item | Description | Lead / Team | Status | Key Documents |
 |
+
+
+## Hono Migration & Documentation Cleanup (2026-03-03)
+
+### Pending Actions
+- **Express to Hono Transition**: Following the directive from the Platform Architect, the `node` module is migrating from Express to [Hono](https://hono.dev/). This move targets performance optimization and better middleware support.
+- **`old-docs` Deprecation**: The `old-docs/` directory is scheduled for deletion in two sessions. All relevant guidance must be migrated to the `/docs` root or appropriate subdirectories.
+
+### Institutionalization Status
+- [ ] Migration of `modules/node` entry points to Hono.
+- [ ] Update of `package.json` dependencies to include `hono` and `@hono/node-server`.
+- [ ] Final audit of `old-docs` for any unique legacy knowledge before deletion.
+
+[Architect Directives 2026-02-24](./architect-directives-2026-02-24.md#directives)
