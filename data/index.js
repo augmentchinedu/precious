@@ -23,7 +23,7 @@ export const services = [
   {
     id: "games",
     name: "The Gaming Community",
-    port: 6000,
+    port: 6500,
     prod: "https://games.gkrane.online",
     dev: "https://games.bawell.online",
   },
@@ -37,9 +37,16 @@ export const services = [
   {
     id: "domains",
     name: "Domain Management",
-    port: 6500,
+    port: 6600,
     prod: "https://gkrane.online/api/v1/domains",
     dev: "https://bawell.online/api/v1/domains",
+  },
+  {
+    id: "auth",
+    name: "Authentication",
+    port: 3030,
+    prod: "https://gkrane.online/api/v1/accounts",
+    dev: "https://bawell.online/api/v1/accounts",
   },
   {
     id: "accounts",
@@ -51,14 +58,14 @@ export const services = [
   {
     id: "benita",
     name: "WhatsApp Businesses",
-    port: 8000,
+    port: 8100,
     prod: "https://gkrane.online/api/v1/maserati",
     dev: "https://bawell.online/api/v1/maserati",
   },
   {
     id: "browsers",
     name: "Chromium Service",
-    port: 9000,
+    port: 9100,
     prod: "https://gkrane.online/api/v1/browsers",
     dev: "https://bawell.online/api/v1/browsers",
   },

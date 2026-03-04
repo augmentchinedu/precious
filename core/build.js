@@ -32,13 +32,18 @@ export async function runBuilds() {
 
       if (!hasDeps) {
         console.log(`🚀 Running build for: ${nodeId}`);
-
         const buildFile = join(nodePath, "build", "index.js");
 
+        // Run build/index.js first
         await runBuildProcess(buildFile, {
           SERVICE_NAME: nodeData.id,
           APP_NAME: nodeData.name,
         });
+
+        // Then run npm install after build finishes
+        console.log(`📦 Installing dependencies for ${nodeId}...`);
+        await runNpmInstall(nodePath);
+
       } else {
         console.log(`⏭ Skipping ${nodeId} (has dependencies)`);
       }
@@ -52,15 +57,27 @@ function runBuildProcess(file, envVars) {
   return new Promise((resolve, reject) => {
     const child = spawn("node", [file], {
       stdio: "inherit",
-      env: {
-        ...process.env,
-        ...envVars,
-      },
+      env: { ...process.env, ...envVars },
     });
 
     child.on("close", (code) => {
       if (code === 0) resolve();
       else reject(new Error(`Build failed with code ${code}`));
+    });
+  });
+}
+
+function runNpmInstall(cwd) {
+  return new Promise((resolve, reject) => {
+    const child = spawn("npm", ["install"], {
+      stdio: "inherit",
+      cwd,
+      env: process.env,
+    });
+
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`npm install failed with code ${code}`));
     });
   });
 }

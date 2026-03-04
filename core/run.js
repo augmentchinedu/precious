@@ -4,6 +4,9 @@ import { services } from "../data/index.js";
 
 const runningProcesses = [];
 
+/**
+ * Start all services
+ */
 export function startNextProcess() {
   for (const node of services) {
     const nodePath = path.join(process.cwd(), "dev", "node", node.id);
@@ -21,7 +24,7 @@ export function startNextProcess() {
           APP_NAME: node.name,
         },
         stdio: "inherit",
-        detached: true,
+        detached: true, // allow independent process group
       }
     );
 
@@ -29,11 +32,25 @@ export function startNextProcess() {
   }
 }
 
-// Kill all children on exit (only once)
-process.on("exit", () => {
+/**
+ * Kill all children safely
+ */
+function killChildren() {
   for (const child of runningProcesses) {
     try {
-      process.kill(child.pid);
+      if (process.platform === "win32") {
+        spawn("taskkill", ["/pid", child.pid, "/t", "/f"]);
+      } else {
+        process.kill(-child.pid); // kill entire group on Unix
+      }
     } catch {}
   }
+}
+
+// Listen for common termination signals
+["exit", "SIGINT", "SIGTERM", "SIGHUP", "uncaughtException"].forEach((evt) => {
+  process.on(evt, () => {
+    killChildren();
+    process.exit(); // exit after killing children
+  });
 });
