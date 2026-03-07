@@ -7,7 +7,15 @@ import { services } from "../data/index.js";
 
 // Source modules
 const MODULES_DIR = path.resolve("modules");
-const NODE_MODULES = ["node", "build", "controllers"]; // modules to copy
+const NODE_MODULES = [
+  "node",
+  "build",
+  "controllers",
+  "resolvers",
+  "functions",
+  "data",
+  "utility"
+]; // modules to copy
 
 // Sync a module folder into a specific node
 async function syncModuleToNode(node, moduleFolder) {
@@ -75,4 +83,3 @@ export function watch() {
 
   console.log("Watching modules for changes...");
 }
-

@@ -27,8 +27,8 @@ export async function runBuilds() {
       const pkg = JSON.parse(packageRaw);
 
       const hasDeps =
-        (pkg.dependencies && Object.keys(pkg.dependencies).length > 0) ||
-        (pkg.devDependencies && Object.keys(pkg.devDependencies).length > 0);
+        (pkg.dependencies && Object.keys(pkg.dependencies).length > 2) ||
+        (pkg.devDependencies && Object.keys(pkg.devDependencies).length > 1);
 
       if (!hasDeps) {
         console.log(`🚀 Running build for: ${nodeId}`);

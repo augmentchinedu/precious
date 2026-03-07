@@ -19,3 +19,25 @@
 [submodule "modules/tests"]
 	path = modules/tests
 	url = https://github.com/augmentchinedu/tests
+[submodule "modules/resolvers"]
+	path = modules/resolvers
+	url = https://github.com/augmentchinedu/resolvers
+	branch = main
+[submodule "modules/functions"]
+	path = modules/functions
+	url = https://github.com/augmentchinedu/functions
+[submodule "modules/vue"]
+	path = modules/vue
+	url = https://github.com/augmentchinedu/vue
+[submodule "modules/pages"]
+	path = modules/pages
+	url = https://github.com/augmentchinedu/pages
+[submodule "modules/views"]
+	path = modules/views
+	url = https://github.com/augmentchinedu/views
+[submodule "modules/data"]
+	path = modules/data
+	url = https://github.com/augmentchinedu/data
+[submodule "modules/utility"]
+	path = modules/utility
+	url = https://github.com/augmentchinedu/utility

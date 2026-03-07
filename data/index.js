@@ -5,6 +5,9 @@ export const services = [
     port: 3000,
     prod: "https://gkrane.online/",
     dev: "https://bawell.online",
+    dependencies: {
+      "mime-types": "^3.0.2",
+    },
   },
   {
     id: "ai",

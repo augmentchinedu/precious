@@ -15,7 +15,7 @@ export function startNextProcess() {
 
     const child = spawn(
       process.platform === "win32" ? "npm.cmd" : "npm",
-      ["run", "start"],
+      ["run", "dev"],
       {
         cwd: nodePath,
         env: {
